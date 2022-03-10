@@ -5,12 +5,12 @@ const pathResolve = dir => {
   return resolve(__dirname, ".", dir);
 };
 const alias = {
-  "@": pathResolve("src/"),
-  "@comp": pathResolve("src/components"),
-  "@views": pathResolve("src/views"),
-  "@assets": pathResolve("src/assets"),
-  "@static": pathResolve("src/static"),
-  "@api": pathResolve("src/api")
+  "/@/": pathResolve("./src"),
+  "/@comp": pathResolve("./src/components"),
+  "/@views": pathResolve("./src/views"),
+  // "/@assets": pathResolve("./src/assets"),
+  // "/@static": pathResolve("./src/static"),
+  // "/@api": pathResolve("./src/api")
 };
 // https://vitejs.dev/config/
 export default defineConfig({
