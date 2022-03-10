@@ -2,16 +2,16 @@
   <div class="h100 of-y">
     <van-row align="center" gutter="">
       <van-col span="12" class="tx-c">
-        <van-button block type="primary" size="small">TOP-N等级 </van-button>
+        <van-button block :type="btnNum == 0 ?'primary' : 'default'" size="normal" class="font-b" @click="btnNum = 0">TOP-N等级 </van-button>
       </van-col>
       <van-col span="12" class="tx-c">
-        <van-button block size="small" type="default">派单时间 </van-button>
+        <van-button block size="normal" :type="btnNum == 1 ?'primary' : 'default'" class="font-b"  @click="btnNum = 1">派单时间 </van-button>
       </van-col>
     </van-row>
 
     <div class="mt5">
       <van-list
-        v-model:loading="loading"
+        :loading="loading"
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad"
@@ -62,6 +62,16 @@
             <span>故障数量：</span>
             <span>广西南宁</span>
           </p>
+          <p v-if="btnNum == 0">
+            <span class="dot green1"></span>
+            <span>故障数量：</span>
+            <span>43454</span>
+          </p>
+          <p v-else>
+            <span class="dot green1"></span>
+            <span>派单时间：</span>
+            <span>2020-11-11 02:22:12</span>
+          </p>
         </div>
       </van-list>
     </div>
@@ -76,6 +86,7 @@ export default {
     const list = ref([]);
     const loading = ref(false);
     const finished = ref(false);
+    const btnNum = ref(0);
 
     const onLoad = () => {
       // 异步更新数据
@@ -99,7 +110,8 @@ export default {
       list,
       onLoad,
       loading,
-      finished
+      finished,
+      btnNum
     };
   }
 };
@@ -124,9 +136,18 @@ export default {
 
 .li-item p {
   margin: 5px 0;
+  font-size: 0.9rem;
+}
+
+.li-item p span:last-child {
+  color: #7f7f7f;
 }
 
 .green1 {
   color: #44f956;
+}
+
+.font-b {
+  font-size: 1.0rem
 }
 </style>

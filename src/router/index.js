@@ -5,6 +5,7 @@ import Route from "/@views/Route.vue";
 import LogOut from "/@views/LogOut.vue";
 import ProblemReport from "/@views/problemReport/ProblemReport.vue";
 import ProblemOrder from "/@views/problemOrder/ProblemOrder.vue";
+import ProblemDetail from "/@views/problemDetail/ProblemDetail.vue";
 
 const routes = [
   {
@@ -26,6 +27,11 @@ const routes = [
     path: "/problemOrder",
     name: "problemOrder",
     component: ProblemOrder
+  },
+  {
+    path: "/problemDetail",
+    name: "problemDetail",
+    component: ProblemDetail
   },
   {
     path: "/register",

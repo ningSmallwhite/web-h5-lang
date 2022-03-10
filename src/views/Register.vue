@@ -11,6 +11,6 @@ import RegisterInfo from '/@comp/registerInfo/RegisterInfo.vue'
 <style scoped>
 .reg-info{
   padding: 0.5rem 0;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <Header /> -->
-    <van-nav-bar title="标题" />
+    <van-nav-bar title="润建股份网络运营服务平台" />
     <div class="content">
       <router-view></router-view>
     </div>
