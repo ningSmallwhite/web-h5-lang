@@ -8,7 +8,7 @@ const alias = {
   "/@/": pathResolve("./src"),
   "/@comp": pathResolve("./src/components"),
   "/@views": pathResolve("./src/views"),
-  // "/@assets": pathResolve("./src/assets"),
+  "/@utils": pathResolve("./src/utils"),
   // "/@static": pathResolve("./src/static"),
   // "/@api": pathResolve("./src/api")
 };

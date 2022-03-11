@@ -36,6 +36,17 @@ const routes = [
   {
     path: "/register",
     name: "register",
+    meta: {
+      showBack: false
+    },
+    component: Register
+  },
+  {
+    path: "/userInfo",
+    name: "userInfo",
+    meta: {
+      showBack: false
+    },
     component: Register
   }
 ];

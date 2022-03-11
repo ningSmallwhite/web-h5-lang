@@ -47,16 +47,14 @@
     <van-row align="center" gutter="10">
       <van-col span="12" class="tx-c">
         <van-image
-          width="8rem"
-          height="6rem"
+          width="100%"
           fit="cover"
           src="https://img.yzcdn.cn/vant/cat.jpeg"
         />
       </van-col>
       <van-col span="12" class="tx-c">
         <van-image
-          width="8rem"
-          height="6rem"
+          width="100%"
           fit="cover"
           src="https://img.yzcdn.cn/vant/cat.jpeg"
         />

@@ -35,7 +35,7 @@
           </van-button>
         </van-col>
         <van-col span="12">
-          <van-button block color="#01a7f0">
+          <van-button block color="#01a7f0" @click="transResolve">
             工单转派
           </van-button></van-col
         >
@@ -43,28 +43,38 @@
     </div>
 
     <HandleOrder ref="handleRef" />
+    <TransOrder ref="transRef" />
   </div>
 </template>
 
 <script>
 import { ref } from "vue";
 import HandleOrder from "../handleOrder/HandleOrder.vue";
+import TransOrder from "../transOrder/TransOrder.vue";
+
 export default {
   components: {
-    HandleOrder
+    HandleOrder,
+    TransOrder
   },
   setup() {
     const handleRef = ref();
-
     const handleResolve = () => {
       console.log(handleRef);
       handleRef.value.showPopover = true;
     };
 
+    const transRef = ref();
+    const transResolve = () => {
+      transRef.value.showPopover = true;
+    };
+
     return {
       handleResolve,
-      handleRef
-    }
+      handleRef,
+      transRef,
+      transResolve
+    };
   }
 };
 </script>

@@ -4,42 +4,32 @@
     <van-form @failed="onFailed">
       <van-cell-group inset>
         <van-field
+          label="转派人："
+          name="pattern"
+          placeholder="转派人"
+          :rules="[{ pattern, message: '请输入正确内容' }]"
+          v-model="value1"
+        />
+        <van-field
+          label="受理人："
+          name="pattern"
+          placeholder="受理人"
+          :rules="[{ pattern, message: '请输入正确内容' }]"
+        />
+        <van-field
           v-model="message"
           rows="3"
           autosize
-          label="故障说明："
+          label="转派原因："
           type="textarea"
-          placeholder="请输入"
+          placeholder="转派原因"
         />
       </van-cell-group>
-      <!-- <div style="margin: 16px;">
-        <van-button round block type="primary" native-type="submit">
-          提交
-        </van-button>
-      </div> -->
     </van-form>
-    <div class="mt10 mb10 ml10">
-      <van-button class="mt5" type="default">拍照上传</van-button>
-    </div>
-    <van-row align="center" gutter="10">
-      <van-col span="24" class="tx-c">
-        <van-image
-          width="100%"
-          fit="cover"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
-        />
-      </van-col>
-      <van-col span="24" class="tx-c">
-        <van-image
-          width="100%"
-          fit="cover"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
-        />
-      </van-col>
-    </van-row>
+    
     <div class="po-f bot-0 w100">
       <van-button block color="#01a7f0" native-type="submit">
-        提交
+        提交回单
       </van-button>
     </div>
   </van-popup>
@@ -50,7 +40,8 @@ import { ref } from "vue";
 import { Toast } from "vant";
 
 export default {
-  setup() {
+  setup(props) {
+    console.log("props",props);
     const value1 = ref("");
     const value2 = ref("");
     const value3 = ref("");
