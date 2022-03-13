@@ -81,7 +81,7 @@
               </van-button>
             </van-col>
             <van-col span="12">
-              <van-button block color="#01a7f0">
+              <van-button block color="#01a7f0" @click='isEdit=false'>
                 返回
               </van-button></van-col
             >

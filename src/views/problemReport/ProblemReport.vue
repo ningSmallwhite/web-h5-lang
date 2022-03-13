@@ -1,30 +1,33 @@
 <template>
   <div class="h100 of-y">
     <p class="base-info">基础信息</p>
-    <van-form @failed="onFailed">
+    <van-form ref='formRef'>
       <van-cell-group inset>
         <!-- 通过 pattern 进行正则校验 -->
         <van-field
           label="基站名称："
-          v-model="value1"
-          name="pattern"
-          placeholder="正则校验"
-          :rules="[{ pattern, message: '请输入正确内容' }]"
+          v-model="name"
+          name="name"
+          required
+          placeholder="请输入基站名称"
+          :rules="[{ required: true, message: '请输入基站名称' }]"
         />
         <!-- 通过 validator 进行函数校验 -->
         <van-field
           label="专业类型："
-          v-model="value2"
-          name="validator"
-          placeholder="函数校验"
-          :rules="[{ validator, message: '请输入正确内容' }]"
+          v-model="type"
+          name="type"
+          required
+          placeholder="请输入专业类型"
+          :rules="[{ required: true, message: '请输入专业类型' }]"
         />
         <van-field
           label="隐患类型："
-          v-model="value2"
-          name="validator"
-          placeholder="函数校验"
-          :rules="[{ validator, message: '请输入正确内容' }]"
+          v-model="protype"
+          name="protype"
+          placeholder="请输入隐患类型"
+          required
+          :rules="[{ required: true, message: '请输入隐患类型' }]"
         />
         <van-field
           v-model="message"
@@ -32,36 +35,18 @@
           autosize
           label="隐患说明："
           type="textarea"
-          placeholder="请输入"
+          placeholder="请输入隐患说明"
+          required
+          :rules="[{ required: true, message: '请输入隐患说明' }]"
         />
       </van-cell-group>
-      <!-- <div style="margin: 16px;">
-        <van-button round block type="primary" native-type="submit">
-          提交
-        </van-button>
-      </div> -->
     </van-form>
-    <div class="mt10 mb10">
-      <van-button class="mt5" type="default">拍照上传</van-button>
-    </div>
+    <p class="base-info">拍照上传</p>
     <van-row align="center" gutter="10">
-      <van-col span="12" class="tx-c">
-        <van-image
-          width="100%"
-          fit="cover"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
-        />
-      </van-col>
-      <van-col span="12" class="tx-c">
-        <van-image
-          width="100%"
-          fit="cover"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
-        />
-      </van-col>
+      <van-uploader class="mt10" v-model="fileList" multiple />
     </van-row>
     <div class="mt20">
-      <van-button block color="#01a7f0" native-type="submit">
+      <van-button block color="#01a7f0" @click="onSubmit">
         提交
       </van-button>
     </div>
@@ -74,44 +59,34 @@ import { Toast } from "vant";
 
 export default {
   setup() {
-    const value1 = ref("");
-    const value2 = ref("");
-    const value3 = ref("");
-    const value4 = ref("");
+    const name = ref("");
+    const type = ref("");
+    const protype = ref("");
     const message = ref("");
-    const pattern = /\d{6}/;
 
-    // 校验函数返回 true 表示校验通过，false 表示不通过
-    const validator = val => /1\d{10}/.test(val);
+    const formRef = ref()
 
-    // 校验函数可以直接返回一段错误提示
-    const validatorMessage = val => `${val} 不合法，请重新输入`;
+    const fileList = ref([
+      { url: 'https://img.yzcdn.cn/vant/leaf.jpg' },
+      // Uploader 根据文件后缀来判断是否为图片文件
+      // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+      { url: 'https://cloud-image', isImage: true },
+    ]);
 
-    // 校验函数可以返回 Promise，实现异步校验
-    const asyncValidator = val =>
-      new Promise(resolve => {
-        Toast.loading("验证中...");
-
-        setTimeout(() => {
-          Toast.clear();
-          resolve(/\d{6}/.test(val));
-        }, 1000);
-      });
-
-    const onFailed = errorInfo => {
-      console.log("failed", errorInfo);
-    };
+    const onSubmit = () => {
+      formRef.value.validate().then(err => {
+        console.log(err)
+      })
+    }
 
     return {
-      value1,
-      value2,
-      value3,
-      value4,
-      pattern,
-      onFailed,
-      validator,
+      name,
+      type,
+      protype,
+      formRef,
       message,
-      asyncValidator
+      fileList,
+      onSubmit
     };
   }
 };

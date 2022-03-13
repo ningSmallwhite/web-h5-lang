@@ -56,4 +56,43 @@ const router = createRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  // 用来记录跳转到aws知乎每次返回的页面
+  window.sessionStorage.setItem("backFullPath", from.fullPath);
+
+  if (from.name === null) {
+    // 第一次打开或刷新
+    if (to.query.code) {
+      window.sessionStorage.setItem("wxCode", to.query.code);
+    }
+  }
+
+  let token = window.sessionStorage.getItem("authorization") || null;
+  let openid = window.localStorage.getItem("openid") || null;
+  if (to.meta.needLogin && !token && !openid) {
+    next({ path: "/login" });
+  } else {
+    next();
+  }
+});
+
+// 微信api要用到的url地址iOS和Android端有异
+const ua = window.navigator.userAgent.toLowerCase();
+if (ua.match(/MicroMessenger/i) == "micromessenger") {
+  let wxConfigUrl = "";
+  router.afterEach(() => {
+    // 微信浏览器的时候
+    if (window.__wxjs_is_wkwebview) {
+      // iOS
+      if (wxConfigUrl == "") {
+        wxConfigUrl = location.href;
+      }
+    } else {
+      // Android
+      wxConfigUrl = location.href;
+    }
+    window.sessionStorage.setItem("wxConfigUrl", wxConfigUrl);
+  });
+}
+
 export default router;

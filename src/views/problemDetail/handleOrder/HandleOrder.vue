@@ -1,7 +1,6 @@
 <template>
   <van-popup position="bottom" closeable round :style="{ height: '99%' }" v-model:show="showPopover">
-    <!-- <p class="base-info">基础信息</p> -->
-    <van-form @failed="onFailed">
+    <van-form>
       <van-cell-group inset>
         <van-field
           v-model="message"
@@ -12,33 +11,13 @@
           placeholder="请输入"
         />
       </van-cell-group>
-      <!-- <div style="margin: 16px;">
-        <van-button round block type="primary" native-type="submit">
-          提交
-        </van-button>
-      </div> -->
     </van-form>
-    <div class="mt10 mb10 ml10">
-      <van-button class="mt5" type="default">拍照上传</van-button>
-    </div>
+     <p class="base-info">拍照上传</p>
     <van-row align="center" gutter="10">
-      <van-col span="24" class="tx-c">
-        <van-image
-          width="100%"
-          fit="cover"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
-        />
-      </van-col>
-      <van-col span="24" class="tx-c">
-        <van-image
-          width="100%"
-          fit="cover"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
-        />
-      </van-col>
+      <van-uploader class="mt10" v-model="fileList" multiple />
     </van-row>
     <div class="po-f bot-0 w100">
-      <van-button block color="#01a7f0" native-type="submit">
+      <van-button block color="#01a7f0" @click="onSubmit">
         提交
       </van-button>
     </div>
@@ -51,47 +30,26 @@ import { Toast } from "vant";
 
 export default {
   setup() {
-    const value1 = ref("");
-    const value2 = ref("");
-    const value3 = ref("");
-    const value4 = ref("");
     const message = ref("");
-    const pattern = /\d{6}/;
-
-    // 校验函数返回 true 表示校验通过，false 表示不通过
-    const validator = val => /1\d{10}/.test(val);
-
-    // 校验函数可以直接返回一段错误提示
-    const validatorMessage = val => `${val} 不合法，请重新输入`;
-
-    // 校验函数可以返回 Promise，实现异步校验
-    const asyncValidator = val =>
-      new Promise(resolve => {
-        Toast.loading("验证中...");
-
-        setTimeout(() => {
-          Toast.clear();
-          resolve(/\d{6}/.test(val));
-        }, 1000);
-      });
-
-    const onFailed = errorInfo => {
-      console.log("failed", errorInfo);
-    };
 
     const showPopover = ref(false);
+    const fileList = ref([
+      { url: 'https://img.yzcdn.cn/vant/leaf.jpg' },
+      // Uploader 根据文件后缀来判断是否为图片文件
+      // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
+      { url: 'https://cloud-image', isImage: true },
+    ]);
 
+    const onSubmit = () => {
+      if (!message.value) {
+        Toast('请输入故障说明')
+      }
+    }
     return {
-      value1,
-      value2,
-      value3,
-      value4,
-      pattern,
-      onFailed,
-      validator,
       message,
-      asyncValidator,
-      showPopover
+      showPopover,
+      fileList,
+      onSubmit
     };
   }
 };
@@ -102,7 +60,7 @@ export default {
   height: 2rem;
   line-height: 2rem;
   padding: 0 5px;
-  background: rgb(1 167 240);
+  background: #d3d3d3;
 }
 
 .bot-0 {
