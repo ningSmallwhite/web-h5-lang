@@ -1,7 +1,7 @@
 <template>
   <div class="h100 of-y">
     <p class="base-info">基础信息</p>
-    <van-form ref='formRef'>
+    <van-form ref="formRef">
       <van-cell-group inset>
         <!-- 通过 pattern 进行正则校验 -->
         <van-field
@@ -56,6 +56,7 @@
 <script>
 import { ref } from "vue";
 import { Toast } from "vant";
+import { getAction } from "/@api/api";
 
 export default {
   setup() {
@@ -64,20 +65,20 @@ export default {
     const protype = ref("");
     const message = ref("");
 
-    const formRef = ref()
+    const formRef = ref();
 
     const fileList = ref([
-      { url: 'https://img.yzcdn.cn/vant/leaf.jpg' },
+      { url: "https://img.yzcdn.cn/vant/leaf.jpg" },
       // Uploader 根据文件后缀来判断是否为图片文件
       // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
-      { url: 'https://cloud-image', isImage: true },
+      { url: "https://cloud-image", isImage: true }
     ]);
 
     const onSubmit = () => {
       formRef.value.validate().then(err => {
-        console.log(err)
-      })
-    }
+        console.log(err);
+      });
+    };
 
     return {
       name,

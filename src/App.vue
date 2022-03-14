@@ -18,6 +18,8 @@ const router = useRouter();
 const onClickLeft = () => {
   router.go(-1);
 };
+
+// router.push('/register')
 </script>
 
 <style></style>

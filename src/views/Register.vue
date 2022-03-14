@@ -5,7 +5,7 @@
     <!-- <RegisterInfo /> -->
     <div>
       <p class="base-info">基础信息</p>
-      <van-form label-width="7em" ref="formRef" >
+      <van-form label-width="7em" ref="formRef">
         <van-cell-group inset>
           <van-field
             label="姓名："
@@ -61,14 +61,20 @@
             :rules="[{ required: true, message: '请输入短信验证码' }]"
           >
             <template #button>
-              <van-button size="small" color="#01a7f0">发送验证码</van-button>
+              <van-button
+                size="small"
+                color="#01a7f0"
+                :loading="loadMsg"
+                @click="getMessage"
+                >发送验证码 <span>({{ megCount }})</span></van-button
+              >
             </template>
           </van-field>
         </van-cell-group>
       </van-form>
 
       <div style="margin: 16px 0;" v-if="isRegister">
-        <van-button block color="#01a7f0" native-type="submit">
+        <van-button block color="#01a7f0" @click="submit">
           确认注册
         </van-button>
       </div>
@@ -81,7 +87,7 @@
               </van-button>
             </van-col>
             <van-col span="12">
-              <van-button block color="#01a7f0" @click='isEdit=false'>
+              <van-button block color="#01a7f0" @click="isEdit = false">
                 返回
               </van-button></van-col
             >
@@ -111,6 +117,8 @@ import { ref, computed } from "vue";
 import { Toast } from "vant";
 import { useRoute, useRouter } from "vue-router";
 import { verifyPhone } from "/@utils/toolsValidate";
+import { getAction } from "/@api/api";
+
 export default {
   setup() {
     const route = useRoute();
@@ -130,32 +138,55 @@ export default {
     const region = ref("");
     const gridding = ref("");
     const sms = ref("");
+    const loadMsg = ref(false);
+    const megCount = ref(30);
+    // 获取短信验证码
+    const getMessage = () => {
+      loadMsg.value = true;
+      getAction("/message", { a: 1 })
+        .then(res => {
+          if (res.success) {
+          }
+        })
+        .catch(err => {
+          setTimeout(() => {
+            loadMsg.value = false;
+          }, 500);
+        });
+    };
 
     // 校验函数返回 true 表示校验通过，false 表示不通过
     const vPhone = val => verifyPhone(val);
     // 修改信息
     const editInfo = () => {
-      console.log(isEdit)
-      isEdit.value = true
-    }
+      console.log(isEdit);
+      isEdit.value = true;
+    };
     // 确认修改
     const editSubmit = () => {
       // isEdit.value = false
-      console.log('formRef',formRef);
-      formRef.value.validate().then((err) => {
-        console.log(err)
+      console.log("formRef", formRef);
+      formRef.value.validate().then(err => {
+        console.log(err);
         if (!err) {
           // 提交
+          Toast.success('修改成功')
         }
-      })
-    }
+      });
+    };
 
-    const formRef = ref()
-
-    
+    const formRef = ref();
 
     const submit = values => {
+      Toast.loading({
+        message: "加载中...",
+        forbidClick: true
+      });
+
       console.log("values", values);
+      setTimeout(() => {
+        Toast.clear();
+      }, 500);
     };
 
     return {
@@ -172,7 +203,10 @@ export default {
       submit,
       editInfo,
       editSubmit,
-      formRef
+      formRef,
+      getMessage,
+      loadMsg,
+      megCount
     };
   }
 };

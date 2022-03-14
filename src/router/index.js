@@ -69,11 +69,12 @@ router.beforeEach((to, from, next) => {
 
   let token = window.sessionStorage.getItem("authorization") || null;
   let openid = window.localStorage.getItem("openid") || null;
-  if (to.meta.needLogin && !token && !openid) {
-    next({ path: "/login" });
-  } else {
-    next();
-  }
+  // if (to.meta.needLogin && !token && !openid) {
+  //   next({ path: "/login" });
+  // } else {
+  //   next();
+  // }
+  next();
 });
 
 // 微信api要用到的url地址iOS和Android端有异
