@@ -1,6 +1,6 @@
 <template>
   <div class="h100 of-y">
-    <p class="reg-info bg-w pl5">用户注册</p>
+    <p class="reg-info bg-white pl5">用户信息维护</p>
     <!-- <RegisterInfo /> -->
     <div>
       <p class="base-info">基础信息</p>
@@ -9,6 +9,7 @@
           <van-field
             label="姓名："
             v-model="formData.UserName"
+            :readonly="!isEdit"
             required
             placeholder="请输入姓名"
             :rules="[{ required: true, message: '请输入姓名' }]"
@@ -17,6 +18,7 @@
             label="手机号码："
             v-model="formData.Tel"
             required
+            :readonly="!isEdit"
             placeholder="请输入手机号"
             :rules="[{ validator: vPhone, message: '请输入手机号' }]"
           />
@@ -24,39 +26,59 @@
           <p class="base-info">业务信息</p>
           <van-field
             label="所属专业："
+            :disabled="!isEdit"
             readonly
             v-model="formData.WoType"
             required
             placeholder="请选择所属专业"
             :rules="[{ required: true, message: '请选择所属专业' }]"
-            @click="showPickerWoType = true"
+            @click="
+              () => {
+                isEdit ? (showPickerWoType = true) : '';
+              }
+            "
           />
           <van-field
             label="分公司类别："
             readonly
+            :disabled="!isEdit"
             v-model="formData.City"
             required
-            placeholder="请选择分公司类别："
+            placeholder="请选择分公司类别"
             :rules="[{ required: true, message: '请选择分公司类别' }]"
-            @click="showPickerCity = true"
+            @click="
+              () => {
+                isEdit ? (showPickerCity = true) : '';
+              }
+            "
           />
           <van-field
             label="区域类别："
+            :disabled="!isEdit"
             readonly
             v-model="formData.County"
             required
             placeholder="请选择区域类别"
             :rules="[{ required: true, message: '请选择区域类别' }]"
-            @click="showPickerCounty = true"
+            @click="
+              () => {
+                isEdit ? (showPickerCounty = true) : '';
+              }
+            "
           />
           <van-field
             label="网格类别："
+            :disabled="!isEdit"
             readonly
             v-model="formData.Grid"
             required
             placeholder="请选择网格类别"
             :rules="[{ required: true, message: '请选择网格类别' }]"
-            @click="showPickerGrid = true"
+            @click="
+              () => {
+                isEdit ? (showPickerGrid = true) : '';
+              }
+            "
           />
           <!-- <van-field
             v-model="sms"
@@ -116,31 +138,59 @@
         />
       </van-popup>
 
-      <div style="margin: 16px 0">
-        <van-button block color="#01a7f0" @click="submitRegist">
-          确认注册
-        </van-button>
+      <div style="margin: 16px 0" v-if="isEdit">
+        <van-row gutter="10">
+          <van-col span="12">
+            <van-button block color="#01a7f0" @click="editSubmit">
+              确认修改
+            </van-button>
+          </van-col>
+          <van-col span="12">
+            <van-button block color="#01a7f0" @click="isEdit = false">
+              返回
+            </van-button></van-col
+          >
+        </van-row>
+      </div>
+      <div style="margin: 16px 0" v-else>
+        <van-row gutter="10">
+          <van-col span="12">
+            <van-button block color="#01a7f0" @click="editInfo">
+              修改信息
+            </van-button>
+          </van-col>
+          <van-col span="12">
+            <van-button block color="#EC808D" @click="logout"> 注销用户 </van-button></van-col
+          >
+        </van-row>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed, toRefs } from "vue";
+import {
+  ref,
+  reactive,
+  computed,
+  unref,
+  nextTick,
+  watchEffect,
+  toRefs,
+} from "vue";
 import { Toast } from "vant";
 import { useRoute, useRouter } from "vue-router";
 import { verifyPhone } from "/@utils/toolsValidate";
-import { getAction } from "/@api/api";
-import { postAction } from "../api/api";
-import { useStore } from 'vuex';
+import { postAction } from "/@api/api";
+import { useStore } from "vuex";
 
 const route = useRoute();
 const router = useRouter();
-const store = useStore()
+const store = useStore();
 
 const isEdit = ref(false);
 
-const formData = reactive({
+let formData = reactive({
   UserName: "",
   Tel: "",
   WoType: "",
@@ -148,14 +198,34 @@ const formData = reactive({
   County: "",
   Grid: "",
 });
+const loadUserInfo = () => {
+  postAction("/Data_Manage/WeChat_User/GetWeChat_User", {
+    openid: store.state.openId,
+  }).then(async (res) => {
+    if (res.Success) {
+      formData.Id = res.Data.Id;
+      formData.UserName = res.Data.UserName;
+      formData.Tel = res.Data.Tel;
+      formData.WoType = res.Data.WoType;
+      formData.City = res.Data.City;
+      formData.County = res.Data.County;
+      formData.Grid = res.Data.Grid;
 
+      loadOptR();
+    }
+  });
+};
+loadUserInfo();
 // 校验函数返回 true 表示校验通过，false 表示不通过
 const vPhone = (val) => verifyPhone(val);
 // 修改信息
+const editInfo = () => {
+  isEdit.value = true;
+};
 
 const formRef = ref();
-// 注册
-const submitRegist = (values) => {
+// 修改
+const editSubmit = (values) => {
   formRef.value.validate().then((err) => {
     Toast.loading({
       message: "加载中...",
@@ -164,12 +234,12 @@ const submitRegist = (values) => {
     if (!err) {
       // 提交
       const obj = Object.assign({}, formData);
-      obj.OpenId = store.state.openId
+      obj.OpenId = store.state.openId;
       postAction("/Data_Manage/WeChat_User/SaveWeChat_User", obj)
         .then((res) => {
           if (res.Success) {
             Toast.success(res.Msg);
-            router.replace('/userInfo')
+            isEdit.value = false;
           } else {
             Toast.fail(res.Msg);
           }
@@ -180,7 +250,34 @@ const submitRegist = (values) => {
         });
     }
   });
-
+};
+// 注销
+const logout = () => {
+  formRef.value.validate().then((err) => {
+    Toast.loading({
+      message: "加载中...",
+      forbidClick: true,
+    });
+    if (!err) {
+      // 提交
+      const obj = {}
+      obj.OpenId = formData.Id;
+      obj.OpenId = store.state.openId;
+      postAction("/Data_Manage/WeChat_User/CancelWeChat_User", obj)
+        .then((res) => {
+          if (res.Success) {
+            Toast.success(res.Msg);
+            router.replace('/logOut')
+          } else {
+            Toast.fail(res.Msg);
+          }
+          Toast.clear();
+        })
+        .catch(() => {
+          Toast.clear();
+        });
+    }
+  });
 };
 
 const columnObj = reactive({
@@ -252,15 +349,44 @@ const loadOpt = (param, name) => {
   );
 };
 
-loadOpt(
-  {
-    level: 0,
-    Line: "",
-    CompanyType: "",
-    AreaType: "",
-  },
-  "line"
-);
+const loadOptR = () => {
+  loadOpt(
+    {
+      level: 0,
+      Line: "",
+      CompanyType: "",
+      AreaType: "",
+    },
+    "line"
+  );
+  loadOpt(
+    {
+      level: 1,
+      Line: formData.WoType,
+      CompanyType: "",
+      AreaType: "",
+    },
+    "com"
+  );
+  loadOpt(
+    {
+      level: 2,
+      Line: formData.WoType,
+      CompanyType: formData.City,
+      AreaType: "",
+    },
+    "area"
+  );
+  loadOpt(
+    {
+      level: 3,
+      Line: formData.WoType,
+      CompanyType: formData.City,
+      AreaType: formData.County,
+    },
+    "grid"
+  );
+};
 </script>
 
 <style scoped>

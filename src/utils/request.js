@@ -4,9 +4,9 @@ import { Session } from "./storage";
 
 // 配置新建一个 axios 实例
 const service = axios.create({
-  baseURL: "http://192.168.1.1",
+  baseURL: "http://ecds.rjtx.net:50100",
   timeout: 15000,
-  headers: { "Content-Type": "application/json" }
+  headers: { "Content-Type": "application/json" },
 });
 
 // 添加请求拦截器

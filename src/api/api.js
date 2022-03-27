@@ -8,10 +8,11 @@ export function getAction(url, params) {
   })
 }
 
-export function postAction(url, params) {
+export function postAction(url, params, header) {
   return request({
     url,
     method: "post",
-    data
+    data: params,
+    headers: header,
   });
 }

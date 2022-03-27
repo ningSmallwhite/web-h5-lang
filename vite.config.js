@@ -5,7 +5,7 @@ const pathResolve = dir => {
   return resolve(__dirname, ".", dir);
 };
 const alias = {
-  "/@/": pathResolve("./src"),
+  "/@": pathResolve("./src"),
   "/@comp": pathResolve("./src/components"),
   "/@views": pathResolve("./src/views"),
   "/@utils": pathResolve("./src/utils"),
