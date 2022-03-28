@@ -173,13 +173,12 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { Toast } from "vant";
-import { useRoute, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import { verifyPhone } from "/@utils/toolsValidate";
 import { postAction } from "/@api/api";
 import { useStore } from "vuex";
 import { Session, Local } from "/@utils/storage";
 
-const route = useRoute();
 const router = useRouter();
 const store = useStore();
 

@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Register from "../views/Register.vue";
-import UserInfo from "../views/UserInfo.vue";
-import Route from "/@views/Route.vue";
-import LogOut from "/@views/LogOut.vue";
-import ProblemReport from "/@views/problemReport/ProblemReport.vue";
-import ProblemOrder from "/@views/problemOrder/ProblemOrder.vue";
-import ProblemDetail from "/@views/problemDetail/ProblemDetail.vue";
+// import Register from "../views/Register.vue";
+// import UserInfo from "../views/UserInfo.vue";
+// import Route from "/@views/Route.vue";
+// import LogOut from "/@views/LogOut.vue";
+// import ProblemReport from "/@views/problemReport/ProblemReport.vue";
+// import ProblemOrder from "/@views/problemOrder/ProblemOrder.vue";
+// import ProblemDetail from "/@views/problemDetail/ProblemDetail.vue";
 import { useStore } from "vuex";
 import { Session, Local } from "/@utils/storage";
 
@@ -19,22 +19,22 @@ const routes = [
   {
     path: "/logOut",
     name: "LogOut",
-    component: LogOut,
+    component: () => import("/@views/LogOut.vue"),
   },
   {
     path: "/problemReport",
     name: "problemReport",
-    component: ProblemReport,
+    component: () => import("/@views/problemReport/ProblemReport.vue"),
   },
   {
     path: "/problemOrder",
     name: "problemOrder",
-    component: ProblemOrder,
+    component: () => import("/@views/problemOrder/ProblemOrder.vue"),
   },
   {
     path: "/problemDetail",
     name: "problemDetail",
-    component: ProblemDetail,
+    component: () => import("/@views/problemDetail/ProblemDetail.vue"),
   },
   {
     path: "/register",
@@ -42,7 +42,7 @@ const routes = [
     meta: {
       showBack: false,
     },
-    component: Register,
+    component: () => import("../views/Register.vue"),
   },
   {
     path: "/userInfo",
