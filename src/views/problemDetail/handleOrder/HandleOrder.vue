@@ -1,5 +1,12 @@
 <template>
-  <van-popup position="bottom" closeable round :style="{ height: '99%' }" v-model:show="showPopover">
+  <van-popup
+    position="bottom"
+    closeable
+    round
+    :style="{ height: '99%' }"
+    v-model:show="showPopover"
+    @close="close"
+  >
     <van-form>
       <van-cell-group inset>
         <van-field
@@ -12,46 +19,119 @@
         />
       </van-cell-group>
     </van-form>
-     <p class="base-info">拍照上传</p>
+    <p class="base-info">拍照上传</p>
     <van-row align="center" gutter="10">
-      <van-uploader class="mt10" v-model="fileList" multiple />
+      <van-uploader
+        class="mt10"
+        v-model="fileList"
+        multiple
+        :after-read="afterRead"
+        :before-delete="beforeDelete"
+      />
     </van-row>
     <div class="po-f bot-0 w100">
-      <van-button block color="#01a7f0" @click="onSubmit">
-        提交
-      </van-button>
+      <van-button block color="#01a7f0" @click="onSubmit"> 提交 </van-button>
     </div>
   </van-popup>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, inject } from "vue";
 import { Toast } from "vant";
+import { postAction } from "/@api/api";
 
 export default {
   setup() {
     const message = ref("");
-
+    let pData = {};
     const showPopover = ref(false);
-    const fileList = ref([
-      { url: 'https://img.yzcdn.cn/vant/leaf.jpg' },
-      // Uploader 根据文件后缀来判断是否为图片文件
-      // 如果图片 URL 中不包含类型信息，可以添加 isImage 标记来声明
-      { url: 'https://cloud-image', isImage: true },
-    ]);
+    const fileList = ref([]);
+    let urlArr = [];
+    let handleUrl = ref('');
+    const loadDetail = inject("loadDetail");
+
+    const afterRead = (file) => {
+      let fd = new FormData();
+      fd.append("formFile", file.file);
+      Toast.loading({
+        forbidClick: true,
+        duration: 0,
+        message: "上传中...",
+      });
+
+      postAction("/Wo/App/WeChatWo/UploadFileByForm", fd)
+        .then((res) => {
+          file.status = res.status;
+
+          if (res.status == "done") {
+            console.log("fileList", fileList.value);
+            urlArr.push(res.url);
+          }
+          Toast.clear();
+        })
+        .catch(() => {
+          Toast.clear();
+        });
+    };
+
+    const beforeDelete = (file, index) => {
+      urlArr.splice(index, 1);
+      return true;
+    };
 
     const onSubmit = () => {
       if (!message.value) {
-        Toast('请输入故障说明')
+        return Toast("请输入故障说明");
       }
-    }
+      if (urlArr.length == 0) {
+        return Toast("请上传图片");
+      }
+      const obj = Object.assign({}, pData);
+      obj.FaultRemark = message.value;
+      obj.ImgURL = urlArr.join(",");
+      Toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+      });
+      postAction(handleUrl.value, obj).then(
+        (res) => {
+          if (res.Success) {
+            Toast.success(res.Msg);
+            close();
+            // 重新请求列表
+            loadDetail();
+          } else {
+            Toast.fail(res.Msg);
+          }
+          Toast.clear();
+        }
+      );
+    };
+
+    const openPop = (row, url) => {
+      pData = row;
+      handleUrl.value = url;
+      showPopover.value = true;
+    };
+
+    const close = () => {
+      message.value = "";
+      urlArr = [];
+      fileList.value = [];
+      showPopover.value = false;
+    };
+
     return {
       message,
       showPopover,
+      openPop,
       fileList,
-      onSubmit
+      onSubmit,
+      afterRead,
+      beforeDelete,
+      close,
     };
-  }
+  },
 };
 </script>
 

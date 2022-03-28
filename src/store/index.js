@@ -1,22 +1,21 @@
 import { createStore, useStore } from "vuex";
+import { Session, Local } from "/@utils/storage";
 
 export default createStore({
   state: {
-    userInfo: {}, // 个人信息
-    openId: window.sessionStorage.openId || null,
+    userInfo: Local.get("userInfo") || {}, // 个人信息
+    openId: Session.get("openId") || null,
   },
   mutations: {
     SET_USER_DATA(state, value) {
       state.userInfo = value;
-      console.log("SET_USER_DATA", state.userInfo);
     },
-    SET_OPENID(state,value) {
-      state.openId = value
-    }
+    SET_OPENID(state, value) {
+      state.openId = value;
+    },
   },
   actions: {
     setUserData: ({ commit, state }, value) => {
-      console.log(22);
       commit("SET_USER_DATA", value);
     },
     setOpenId: ({ commit, state }, value) => {
@@ -25,4 +24,4 @@ export default createStore({
   },
 });
 
-export const store = useStore()
+export const store = useStore();

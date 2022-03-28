@@ -1,6 +1,11 @@
 <template>
   <div class="h100 of-y">
-    <van-tabs color='#01a7f0' type="card" v-model:active="active" @click-tab="onClickTab">
+    <van-tabs
+      color="#01a7f0"
+      type="card"
+      v-model:active="active"
+      @click-tab="onClickTab"
+    >
       <van-tab title="移动类工单">
         <MobileOrder />
       </van-tab>
@@ -12,24 +17,57 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, provide, reactive, toRefs } from "vue";
 import { Toast } from "vant";
 import MobileOrder from "./mobileOrder/MobileOrder.vue";
 import TowerOrder from "./towerOrder/TowerOrder.vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
+import { postAction } from "/@api/api";
 
 export default {
   components: {
     MobileOrder,
-    TowerOrder
+    TowerOrder,
   },
   setup() {
+    const state = reactive({data: {Data_Wo_Son_WangYoulist: []}})
     const active = ref(0);
-    const onClickTab = () => Toast("22");
-    return {
-      active,
-      onClickTab
+    const onClickTab = () => {}
+
+    const route = useRoute();
+    const store = useStore();
+    const loadDetail = () => {
+      Toast.loading({
+        message: "加载中...",
+        forbidClick: true,
+      });
+      postAction("/Wo/App/WeChatWo/GetTheDataWeChat", {
+        id: route.query.id,
+        openid: store.state.openId,
+      })
+        .then((res) => {
+          if (res.Success) {
+            console.log(res);
+            state.data = res.Data
+          }
+          Toast.clear();
+        })
+        .catch(() => {
+          Toast.clear();
+        });
     };
-  }
+
+    provide('dataSource', state) 
+    provide('loadDetail', loadDetail)
+
+    loadDetail();
+    return {
+      ...toRefs(state),
+      active,
+      onClickTab,
+    };
+  },
 };
 </script>
 

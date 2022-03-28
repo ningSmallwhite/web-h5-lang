@@ -101,7 +101,6 @@ export default {
 
     const beforeDelete = (file, index) => {
       urlArr.splice(index, 1);
-      console.log("urlArr", urlArr);
       return true;
     };
 

@@ -6,14 +6,15 @@ import LogOut from "/@views/LogOut.vue";
 import ProblemReport from "/@views/problemReport/ProblemReport.vue";
 import ProblemOrder from "/@views/problemOrder/ProblemOrder.vue";
 import ProblemDetail from "/@views/problemDetail/ProblemDetail.vue";
-import { Local } from "/@utils/storage";
 import { useStore } from "vuex";
+import { Session, Local } from "/@utils/storage";
 
 const routes = [
   {
     path: "/",
     name: "route",
-    component: Route,
+    redirect: "/register",
+    // component: Route,
   },
   {
     path: "/logOut",
@@ -60,20 +61,29 @@ const router = createRouter({
 
 const store = useStore();
 router.beforeEach((to, from, next) => {
-  if (from.name === null) {
+  console.log(to);
+  // if (from.name === null) {
     // 第一次打开或刷新
     if (to.query.code) {
-      window.sessionStorage.setItem("wxCode", to.query.code);
+      Local.set("wxCode", to.query.code);
     }
-  }
-  if (to.path == "/register") {
-    const userInfo = Local.get("userInfo");
-    if (userInfo.Id) {
+  // }
+  const openId = Session.get("openId");
+  const userInfo = Local.get("userInfo");
+  console.log(openId, userInfo);
+  console.log(112);
+  // next();
+  if (openId && userInfo && userInfo.UserName) {
+    if (to.path == "/register") {
       next({ path: "/userInfo" });
+    } else {
+      next();
     }
+  } else {
+    if (to.path == "/register") {
+      next();
+    } else next({ path: "/register" });
   }
-
-  next();
 });
 
 // 微信api要用到的url地址iOS和Android端有异

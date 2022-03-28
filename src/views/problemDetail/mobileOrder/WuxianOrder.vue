@@ -1,37 +1,49 @@
 <template>
   <div>
     <van-empty
-      v-if="data.Data_Wo_Son_WangYoulist.length == 0"
+      v-if="data.Data_Wo_Son_WuXianlist.length == 0"
       description="暂无数据"
     />
     <div
       class="li-item1"
-      v-for="item in data.Data_Wo_Son_WangYoulist"
+      v-for="item in data.Data_Wo_Son_WuXianlist"
       :key="item.Id"
     >
       <p>
-        <span>通报类型：</span>
-        <span>{{ item.ReportType }}</span>
-      </p>
-      <p>
-        <span>基站名：</span>
-        <span>{{ item.SiteName }}</span>
+        <span>告警名称：</span>
+        <span>{{ item.AlarmName }}</span>
       </p>
       <p>
         <span>小区名：</span>
         <span>{{ item.AreaName }}</span>
       </p>
       <p>
-        <span>告警名称：</span>
-        <span>{{ item.AlarmName }}</span>
+        <span>基站名：</span>
+        <span>{{ item.SiteName }}</span>
       </p>
       <p>
-        <span>告警时间：</span>
-        <span>{{ item.AlarmStartTime }}</span>
+        <span>派单时间：</span>
+        <span>{{ item.SendTime }}</span>
+      </p>
+      <p>
+        <span>受理专业：</span>
+        <span>{{ item.HandleMajor }}</span>
       </p>
       <p>
         <span>恢复时间：</span>
         <span>{{ item.RecoveryTime }}</span>
+      </p>
+      <p>
+        <span>最新回复内容：</span>
+        <span>{{ item.LatestMsg }}</span>
+      </p>
+      <p>
+        <span>优化片区：</span>
+        <span>{{ item.OptimizeArea }}</span>
+      </p>
+      <p>
+        <span>网格组长：</span>
+        <span>{{ item.GridLeader }}</span>
       </p>
       <van-row gutter="10">
         <van-col span="12">
@@ -81,7 +93,7 @@ export default {
     const data = inject("dataSource");
     const handleRef = ref();
     const handleResolve = (item) => {
-      handleRef.value.openPop(item, "/Wo/App/WeChatWo/SaveData_Wo_Son_WangYou");
+      handleRef.value.openPop(item, "/Wo/App/WeChatWo/SaveData_Wo_Son_WuXian");
     };
 
     const transRef = ref();

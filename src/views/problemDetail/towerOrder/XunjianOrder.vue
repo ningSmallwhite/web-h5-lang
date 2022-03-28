@@ -1,37 +1,37 @@
 <template>
   <div>
     <van-empty
-      v-if="data.Data_Wo_Son_WangYoulist.length == 0"
+      v-if="data.Data_Wo_Son_Checklist.length == 0"
       description="暂无数据"
     />
     <div
       class="li-item1"
-      v-for="item in data.Data_Wo_Son_WangYoulist"
+      v-for="item in data.Data_Wo_Son_Checklist"
       :key="item.Id"
     >
       <p>
-        <span>通报类型：</span>
-        <span>{{ item.ReportType }}</span>
+        <span>计划名称：</span>
+        <span>{{ item.PlanName }}</span>
       </p>
       <p>
-        <span>基站名：</span>
+        <span>专业：</span>
+        <span>{{ item.Major }}</span>
+      </p>
+      <p>
+        <span>计划执行时间：</span>
+        <span>{{ item.ExecuteTime }}</span>
+      </p>
+      <p>
+        <span>站址编码：</span>
+        <span>{{ item.SiteCode }}</span>
+      </p>
+      <p>
+        <span>站址名称：</span>
         <span>{{ item.SiteName }}</span>
       </p>
       <p>
-        <span>小区名：</span>
-        <span>{{ item.AreaName }}</span>
-      </p>
-      <p>
-        <span>告警名称：</span>
-        <span>{{ item.AlarmName }}</span>
-      </p>
-      <p>
-        <span>告警时间：</span>
-        <span>{{ item.AlarmStartTime }}</span>
-      </p>
-      <p>
-        <span>恢复时间：</span>
-        <span>{{ item.RecoveryTime }}</span>
+        <span>状态：</span>
+        <span>{{ item.Status }}</span>
       </p>
       <van-row gutter="10">
         <van-col span="12">
@@ -68,7 +68,6 @@
 
 <script>
 import { ref, inject, toRefs } from "vue";
-import { postAction } from "../../../api/api";
 import HandleOrder from "../handleOrder/HandleOrder.vue";
 import TransOrder from "../transOrder/TransOrder.vue";
 
@@ -81,7 +80,7 @@ export default {
     const data = inject("dataSource");
     const handleRef = ref();
     const handleResolve = (item) => {
-      handleRef.value.openPop(item, "/Wo/App/WeChatWo/SaveData_Wo_Son_WangYou");
+      handleRef.value.openPop(item, "/Wo/App/WeChatWo/SaveData_Wo_Son_Check");
     };
 
     const transRef = ref();

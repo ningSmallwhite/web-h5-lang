@@ -1,37 +1,57 @@
 <template>
   <div>
     <van-empty
-      v-if="data.Data_Wo_Son_WangYoulist.length == 0"
+      v-if="data.Data_Wo_Son_Faultlist.length == 0"
       description="暂无数据"
     />
     <div
       class="li-item1"
-      v-for="item in data.Data_Wo_Son_WangYoulist"
+      v-for="item in data.Data_Wo_Son_Faultlist"
       :key="item.Id"
     >
       <p>
-        <span>通报类型：</span>
-        <span>{{ item.ReportType }}</span>
+        <span>处理人/部门：</span>
+        <span>{{ item.HandleMan }}</span>
       </p>
       <p>
-        <span>基站名：</span>
+        <span>处理人电话：</span>
+        <span>{{ item.Tel }}</span>
+      </p>
+      <p>
+        <span>派单时间：</span>
+        <span>{{ item.SendTime }}</span>
+      </p>
+      <p>
+        <span>时限（分钟）：</span>
+        <span>{{ item.TimeLimit }}</span>
+      </p>
+      <p>
+        <span>故障设备类型：</span>
+        <span>{{ item.FalutType }}</span>
+      </p>
+      <p>
+        <span>告警状态：</span>
+        <span>{{ item.WoStatus }}</span>
+      </p>
+      <p>
+        <span>告警描述：</span>
+        <span>{{ item.FaultRemark }}</span>
+      </p>
+      <p>
+        <span>站址运维ID：</span>
+        <span>{{ item.OperationID }}</span>
+      </p>
+      <p>
+        <span>站址名称：</span>
         <span>{{ item.SiteName }}</span>
       </p>
       <p>
-        <span>小区名：</span>
-        <span>{{ item.AreaName }}</span>
-      </p>
-      <p>
-        <span>告警名称：</span>
-        <span>{{ item.AlarmName }}</span>
+        <span>工单历时（分钟）：</span>
+        <span>{{ item.TimeTake }}</span>
       </p>
       <p>
         <span>告警时间：</span>
-        <span>{{ item.AlarmStartTime }}</span>
-      </p>
-      <p>
-        <span>恢复时间：</span>
-        <span>{{ item.RecoveryTime }}</span>
+        <span>{{ item.AlarmTime }}</span>
       </p>
       <van-row gutter="10">
         <van-col span="12">
@@ -68,7 +88,6 @@
 
 <script>
 import { ref, inject, toRefs } from "vue";
-import { postAction } from "../../../api/api";
 import HandleOrder from "../handleOrder/HandleOrder.vue";
 import TransOrder from "../transOrder/TransOrder.vue";
 
@@ -81,7 +100,7 @@ export default {
     const data = inject("dataSource");
     const handleRef = ref();
     const handleResolve = (item) => {
-      handleRef.value.openPop(item, "/Wo/App/WeChatWo/SaveData_Wo_Son_WangYou");
+      handleRef.value.openPop(item, "/Wo/App/WeChatWo/SaveData_Wo_Son_Fault");
     };
 
     const transRef = ref();

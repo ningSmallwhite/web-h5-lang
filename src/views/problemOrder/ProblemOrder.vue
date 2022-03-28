@@ -1,5 +1,5 @@
 <template>
-  <div class="h100 of-y">
+  <div class="">
     <van-row align="center" gutter="">
       <van-col span="12" class="tx-c">
         <van-button
@@ -23,75 +23,77 @@
       </van-col>
     </van-row>
 
-    <div class="mt5">
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-        <van-list
-          :loading="loading"
-          :finished="finished"
-          finished-text="没有更多了"
-          :offset="500"
-          @load="onLoad"
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+      <van-list
+        v-model:loading="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div
+          class="li-item"
+          v-for="item in list"
+          :key="item.Id"
+          @click="toDetial(item)"
         >
-          <div class="li-item" v-for="item in list" :key="item.Id">
-            <p>
-              <span class="dot red"></span>
-              <span>区县：</span>
-              <span>{{ item.County }}</span>
-            </p>
-            <p>
-              <span class="dot orange"></span>
-              <span>网格：</span>
-              <span>{{ item.Grid }}</span>
-            </p>
-            <p>
-              <span class="dot yellow"></span>
-              <span>班组人员：</span>
-              <span>{{ item.TeamName }}</span>
-            </p>
-            <p>
-              <span class="dot green"></span>
-              <span>站址名称：</span>
-              <span>{{ item.SiteName }}</span>
-            </p>
-            <p>
-              <span class="dot blue"></span>
-              <span>站址编码：</span>
-              <span>{{ item.SiteCode }}</span>
-            </p>
-            <p>
-              <span class="dot black"></span>
-              <span>故障原因：</span>
-              <span>{{ item.FaultCause }}</span>
-            </p>
-            <p>
-              <span class="dot purple"></span>
-              <span>基站等级：</span>
-              <span>{{ item.SiteLelvel }}</span>
-            </p>
-            <p>
-              <span class="dot grey"></span>
-              <span>权重值：</span>
-              <span>{{ item.Weight }}</span>
-            </p>
-            <p>
-              <span class="dot green1"></span>
-              <span>故障数量：</span>
-              <span>{{ item.County }}</span>
-            </p>
-            <p v-if="btnNum == 0">
-              <span class="dot green1"></span>
-              <span>故障数量：</span>
-              <span>{{ item.FaultNum }}</span>
-            </p>
-            <p v-else>
-              <span class="dot green1"></span>
-              <span>派单时间：</span>
-              <span>{{ item.UpdateTime }}</span>
-            </p>
-          </div>
-        </van-list>
-      </van-pull-refresh>
-    </div>
+          <p>
+            <span class="dot red"></span>
+            <span>区县：</span>
+            <span>{{ item.County }}</span>
+          </p>
+          <p>
+            <span class="dot orange"></span>
+            <span>网格：</span>
+            <span>{{ item.Grid }}</span>
+          </p>
+          <p>
+            <span class="dot yellow"></span>
+            <span>班组人员：</span>
+            <span>{{ item.TeamName }}</span>
+          </p>
+          <p>
+            <span class="dot green"></span>
+            <span>站址名称：</span>
+            <span>{{ item.SiteName }}</span>
+          </p>
+          <p>
+            <span class="dot blue"></span>
+            <span>站址编码：</span>
+            <span>{{ item.SiteCode }}</span>
+          </p>
+          <p>
+            <span class="dot black"></span>
+            <span>故障原因：</span>
+            <span>{{ item.FaultCause }}</span>
+          </p>
+          <p>
+            <span class="dot purple"></span>
+            <span>基站等级：</span>
+            <span>{{ item.SiteLelvel }}</span>
+          </p>
+          <p>
+            <span class="dot grey"></span>
+            <span>权重值：</span>
+            <span>{{ item.Weight }}</span>
+          </p>
+          <p>
+            <span class="dot green1"></span>
+            <span>故障数量：</span>
+            <span>{{ item.County }}</span>
+          </p>
+          <p v-if="btnNum == 0">
+            <span class="dot green1"></span>
+            <span>故障数量：</span>
+            <span>{{ item.FaultNum }}</span>
+          </p>
+          <p v-else>
+            <span class="dot green1"></span>
+            <span>派单时间：</span>
+            <span>{{ item.UpdateTime }}</span>
+          </p>
+        </div>
+      </van-list>
+    </van-pull-refresh>
   </div>
 </template>
 
@@ -99,6 +101,7 @@
 import { ref } from "vue";
 import { postAction } from "/@api/api";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
@@ -116,17 +119,17 @@ export default {
       }
       const obj = {
         PageIndex: PageIndex.value,
-        PageRows: 20,
+        PageRows: 10,
         SortField: btnNum.value == 0 ? "FaultNum" : "UpdateTime",
         SortType: btnNum.value == 0 ? "desc" : "asc",
         Search: {
-          City: store.state.userInfo.City,
-          County: store.state.userInfo.County,
-          SiteName: store.state.userInfo.SiteName,
-          SiteCode: store.state.userInfo.SiteCode,
-          Grid: store.state.userInfo.Grid,
-          TeamName: store.state.userInfo.TeamName,
-          WoType: store.state.userInfo.WoType,
+          // City: store.state.userInfo.City,
+          // County: store.state.userInfo.County,
+          // SiteName: store.state.userInfo.SiteName,
+          // SiteCode: store.state.userInfo.SiteCode,
+          // Grid: store.state.userInfo.Grid,
+          // TeamName: store.state.userInfo.TeamName,
+          // WoType: store.state.userInfo.WoType,
         },
       };
       postAction("/Wo/App/WeChatWo/GetData_WoList", obj).then((res) => {
@@ -154,11 +157,17 @@ export default {
 
     const btnNumTOP = () => {
       btnNum.value = 0;
+      refreshing.value = true;
       onRefresh();
     };
     const btnNumTime = () => {
       btnNum.value = 1;
+      refreshing.value = true;
       onRefresh();
+    };
+    const router = useRouter();
+    const toDetial = (row) => {
+      router.push({ path: "/problemDetail", query: { id: row.Id } });
     };
 
     return {
@@ -171,6 +180,7 @@ export default {
       refreshing,
       btnNumTOP,
       btnNumTime,
+      toDetial,
     };
   },
 };

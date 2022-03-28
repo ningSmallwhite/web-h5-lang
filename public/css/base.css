@@ -10,7 +10,7 @@
 }
 
 body {
-  max-width: 750px;
+  /* max-width: 750px; */
   margin: 0 auto;
   background: #f2f2f2;
   font-size: 13px;
@@ -580,7 +580,7 @@ ul li {
 }
 
 .content {
-  height: calc(100vh - 56px);
+  min-height: calc(100vh - 66px);
   /* position: relative;
   top: 2rem; */
   overflow: hidden;

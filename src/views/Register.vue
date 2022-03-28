@@ -130,9 +130,9 @@ import { ref, reactive, computed, toRefs } from "vue";
 import { Toast } from "vant";
 import { useRoute, useRouter } from "vue-router";
 import { verifyPhone } from "/@utils/toolsValidate";
-import { getAction } from "/@api/api";
 import { postAction } from "../api/api";
 import { useStore } from 'vuex';
+import { Local } from "/@utils/storage";
 
 const route = useRoute();
 const router = useRouter();
@@ -169,6 +169,7 @@ const submitRegist = (values) => {
         .then((res) => {
           if (res.Success) {
             Toast.success(res.Msg);
+            Local.set("userInfo", obj)
             router.replace('/userInfo')
           } else {
             Toast.fail(res.Msg);

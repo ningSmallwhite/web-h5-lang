@@ -160,7 +160,9 @@
             </van-button>
           </van-col>
           <van-col span="12">
-            <van-button block color="#EC808D" @click="logout"> 注销用户 </van-button></van-col
+            <van-button block type="danger" @click="logout">
+              注销用户
+            </van-button></van-col
           >
         </van-row>
       </div>
@@ -169,20 +171,13 @@
 </template>
 
 <script setup>
-import {
-  ref,
-  reactive,
-  computed,
-  unref,
-  nextTick,
-  watchEffect,
-  toRefs,
-} from "vue";
+import { ref, reactive } from "vue";
 import { Toast } from "vant";
 import { useRoute, useRouter } from "vue-router";
 import { verifyPhone } from "/@utils/toolsValidate";
 import { postAction } from "/@api/api";
 import { useStore } from "vuex";
+import { Session, Local } from "/@utils/storage";
 
 const route = useRoute();
 const router = useRouter();
@@ -260,14 +255,16 @@ const logout = () => {
     });
     if (!err) {
       // 提交
-      const obj = {}
-      obj.OpenId = formData.Id;
-      obj.OpenId = store.state.openId;
-      postAction("/Data_Manage/WeChat_User/CancelWeChat_User", obj)
+      const obj = {};
+      obj.id = formData.Id;
+      obj.openId = store.state.openId;
+      postAction("/Data_Manage/WeChat_User/CancelWeChat_User" + `?id=${formData.Id}&openId=${store.state.openId}`, obj)
         .then((res) => {
           if (res.Success) {
             Toast.success(res.Msg);
-            router.replace('/logOut')
+            Session.clear();
+            Local.clear();
+            router.replace("/logOut");
           } else {
             Toast.fail(res.Msg);
           }

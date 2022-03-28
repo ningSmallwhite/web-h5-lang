@@ -1,37 +1,53 @@
 <template>
   <div>
     <van-empty
-      v-if="data.Data_Wo_Son_WangYoulist.length == 0"
+      v-if="data.Data_Wo_Son_Templist.length == 0"
       description="暂无数据"
     />
     <div
       class="li-item1"
-      v-for="item in data.Data_Wo_Son_WangYoulist"
+      v-for="item in data.Data_Wo_Son_Templist"
       :key="item.Id"
     >
       <p>
-        <span>通报类型：</span>
-        <span>{{ item.ReportType }}</span>
+        <span>工单状态：</span>
+        <span>{{ item.WoStatus }}</span>
       </p>
       <p>
-        <span>基站名：</span>
+        <span>站址名称：</span>
         <span>{{ item.SiteName }}</span>
       </p>
       <p>
-        <span>小区名：</span>
-        <span>{{ item.AreaName }}</span>
+        <span>站址编码：</span>
+        <span>{{ item.SiteCode }}</span>
       </p>
       <p>
-        <span>告警名称：</span>
-        <span>{{ item.AlarmName }}</span>
+        <span>故障原因：</span>
+        <span>{{ item.FaultInfo }}</span>
       </p>
       <p>
-        <span>告警时间：</span>
-        <span>{{ item.AlarmStartTime }}</span>
+        <span>地市：</span>
+        <span>{{ item.City }}</span>
       </p>
       <p>
-        <span>恢复时间：</span>
-        <span>{{ item.RecoveryTime }}</span>
+        <span>区县：</span>
+        <span>{{ item.County }}</span>
+      </p>
+      <p>
+        <span>网格：</span>
+        <span>{{ item.Grid }}</span>
+      </p>
+      <p>
+        <span>班组：</span>
+        <span>{{ item.TeamName }}</span>
+      </p>
+      <p>
+        <span>人员：</span>
+        <span>{{ item.HandleMan }}</span>
+      </p>
+      <p>
+        <span>时限：</span>
+        <span>{{ item.TimeLimit }}</span>
       </p>
       <van-row gutter="10">
         <van-col span="12">
@@ -68,7 +84,6 @@
 
 <script>
 import { ref, inject, toRefs } from "vue";
-import { postAction } from "../../../api/api";
 import HandleOrder from "../handleOrder/HandleOrder.vue";
 import TransOrder from "../transOrder/TransOrder.vue";
 
@@ -81,7 +96,7 @@ export default {
     const data = inject("dataSource");
     const handleRef = ref();
     const handleResolve = (item) => {
-      handleRef.value.openPop(item, "/Wo/App/WeChatWo/SaveData_Wo_Son_WangYou");
+      handleRef.value.openPop(item, "/Wo/App/WeChatWo/SaveData_Wo_Son_Temp");
     };
 
     const transRef = ref();
