@@ -51,8 +51,8 @@
         multiple
       />
     </van-row>
-    <div class="mt20">
-      <van-button block color="#01a7f0" @click="onSubmit"> 提交 </van-button>
+    <div style="margin: 16px 0px; position: fixed; bottom: 0;left: 0; width: 100%">
+      <van-button round block color="#01a7f0" @click="onSubmit"> 提交 </van-button>
     </div>
   </div>
 </template>

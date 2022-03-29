@@ -6,10 +6,13 @@
     <router-link class='mr10' to="/problemReport">ProblemReport</router-link>
     <router-link class='mr10' to="/problemOrder">problemOrder</router-link>
     <router-link class='mr10' to="/problemDetail">ProblemDetail</router-link>
+    <p @click="close">ddd</p>
   </div>
 </template>
-<script>
-export default {};
+<script setup>
+const close = () => {
+  WeixinJSBridge.call('closeWindow');
+}
 </script>
 
 <style scope>

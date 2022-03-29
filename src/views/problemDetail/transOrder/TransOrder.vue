@@ -54,7 +54,7 @@
     </van-popup>
 
     <div class="po-f bot-0 w100">
-      <van-button block color="#01a7f0" @click="onSubmit">
+      <van-button block round color="#01a7f0" @click="onSubmit">
         提交回单
       </van-button>
     </div>

@@ -30,7 +30,7 @@
       />
     </van-row>
     <div class="po-f bot-0 w100">
-      <van-button block color="#01a7f0" @click="onSubmit"> 提交 </van-button>
+      <van-button block round color="#01a7f0" @click="onSubmit"> 提交 </van-button>
     </div>
   </van-popup>
 </template>

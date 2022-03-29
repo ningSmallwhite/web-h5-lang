@@ -157,17 +157,17 @@
       </van-row>
     </div>
     <div
-      style="margin: 16px 0px; position: fixed; bottom: 0; width: 100%"
+      style="margin: 16px 0px; position: fixed; bottom: 0;left: 0; width: 100%"
       v-else
     >
       <van-row gutter="10">
         <van-col span="12">
-          <van-button block color="#01a7f0" @click="editInfo">
+          <van-button block round color="#01a7f0" @click="editInfo">
             修改信息
           </van-button>
         </van-col>
         <van-col span="12">
-          <van-button block type="danger" @click="logout">
+          <van-button block round type="danger" @click="logout">
             注销用户
           </van-button></van-col
         >
