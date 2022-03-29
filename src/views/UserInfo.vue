@@ -394,6 +394,7 @@ const loadOptR = () => {
 .base-info {
   height: 2rem;
   line-height: 2rem;
+  font-size: 0.9rem;
   padding: 0 5px;
   background: rgb(1 167 240);
 }

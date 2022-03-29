@@ -3,9 +3,9 @@ import request from "/@utils/request";
 export function getAction(url, params) {
   return request({
     url,
-    method: 'get',
-    params
-  })
+    method: "get",
+    params,
+  });
 }
 
 export function postAction(url, params, header) {
@@ -16,3 +16,15 @@ export function postAction(url, params, header) {
     headers: header,
   });
 }
+
+export const loadOpenId = (code) => {
+  return getAction("/Data_Manage/WeChat_User/GetAccessTokenByCode", {
+    code,
+  });
+};
+
+export const loadUserInfo = (openid) => {
+  return postAction("/Data_Manage/WeChat_User/GetWeChat_User", {
+    openid: openid,
+  });
+};
