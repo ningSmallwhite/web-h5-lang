@@ -51,10 +51,10 @@ export default {
             console.log(res);
             state.data = res.Data
           }
-          Toast.clear();
+          // Toast.clear();
         })
         .catch(() => {
-          Toast.clear();
+          // Toast.clear();
         });
     };
 

@@ -119,7 +119,7 @@ export default {
             } else {
               Toast.fail(res.Msg);
             }
-            Toast.clear();
+            // Toast.clear();
           });
         }
       });

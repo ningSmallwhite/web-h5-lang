@@ -67,10 +67,10 @@ export default {
             console.log("fileList", fileList.value);
             urlArr.push(res.url);
           }
-          Toast.clear();
+          // Toast.clear();
         })
         .catch(() => {
-          Toast.clear();
+          // Toast.clear();
         });
     };
 
@@ -103,7 +103,7 @@ export default {
           } else {
             Toast.fail(res.Msg);
           }
-          Toast.clear();
+          // Toast.clear();
         }
       );
     };

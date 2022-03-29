@@ -174,10 +174,10 @@ const submitRegist = (values) => {
           } else {
             Toast.fail(res.Msg);
           }
-          Toast.clear();
+          // Toast.clear();
         })
         .catch(() => {
-          Toast.clear();
+          // Toast.clear();
         });
     }
   });

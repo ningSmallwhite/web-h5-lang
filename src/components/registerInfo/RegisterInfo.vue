@@ -134,7 +134,7 @@ export default {
         Toast.loading("验证中...");
 
         setTimeout(() => {
-          Toast.clear();
+          // Toast.clear();
           resolve(/\d{6}/.test(val));
         }, 1000);
       });

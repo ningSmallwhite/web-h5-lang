@@ -61,6 +61,7 @@
 import { reactive, ref, unref } from "vue";
 import { Toast } from "vant";
 import { postAction } from "/@api/api";
+import { useStore } from "vuex";
 
 export default {
   setup() {
@@ -70,7 +71,7 @@ export default {
       FaultType: "",
       FaultRemark: "",
     });
-
+    const store = useStore();
     const formRef = ref();
 
     const fileList = ref([]);
@@ -89,7 +90,6 @@ export default {
           file.status = res.status;
 
           if (res.status == "done") {
-            console.log("fileList", fileList.value);
             urlArr.push(res.url);
           }
           Toast.clear();
@@ -110,6 +110,8 @@ export default {
           return Toast.fail("请上传图片");
         }
         const obj = Object.assign({}, formData);
+        obj.County = store.state.userInfo.County;
+        obj.Grid = store.state.userInfo.Grid;
         obj.ImgURL = urlArr.join(",");
         Toast.loading({
           message: "加载中...",
@@ -128,7 +130,7 @@ export default {
             } else {
               Toast.fail(res.Msg);
             }
-            Toast.clear();
+            // Toast.clear();
           }
         );
       });

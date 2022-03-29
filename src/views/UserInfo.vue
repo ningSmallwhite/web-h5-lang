@@ -204,7 +204,8 @@ const loadUserInfo = () => {
       formData.City = res.Data.City;
       formData.County = res.Data.County;
       formData.Grid = res.Data.Grid;
-
+      Local.set("userInfo", res.Data || {});
+      store.dispatch("setUserData", res.Data);
       loadOptR();
     }
   });
@@ -233,14 +234,15 @@ const editSubmit = (values) => {
         .then((res) => {
           if (res.Success) {
             Toast.success(res.Msg);
+            loadUserInfo();
             isEdit.value = false;
           } else {
             Toast.fail(res.Msg);
           }
-          Toast.clear();
+          // Toast.clear();
         })
         .catch(() => {
-          Toast.clear();
+          // Toast.clear();
         });
     }
   });
@@ -257,7 +259,11 @@ const logout = () => {
       const obj = {};
       obj.id = formData.Id;
       obj.openId = store.state.openId;
-      postAction("/Data_Manage/WeChat_User/CancelWeChat_User" + `?id=${formData.Id}&openId=${store.state.openId}`, obj)
+      postAction(
+        "/Data_Manage/WeChat_User/CancelWeChat_User" +
+          `?id=${formData.Id}&openId=${store.state.openId}`,
+        obj
+      )
         .then((res) => {
           if (res.Success) {
             Toast.success(res.Msg);
@@ -267,10 +273,10 @@ const logout = () => {
           } else {
             Toast.fail(res.Msg);
           }
-          Toast.clear();
+          // Toast.clear();
         })
         .catch(() => {
-          Toast.clear();
+          // Toast.clear();
         });
     }
   });

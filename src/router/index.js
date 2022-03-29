@@ -93,7 +93,12 @@ router.beforeEach(async (to, from, next) => {
         next({ path: "/register", replace: true });
       }
     } else {
-      next();
+      if (to.path == "/register") {
+        Toast('您已注册！')
+        next({ path: "/userInfo", replace: true });
+      } else {
+        next();
+      }
     }
   } else {
     // 刷新
@@ -123,10 +128,6 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   }
-});
-
-router.afterEach(() => {
-  Toast.clear();
 });
 
 export default router;
