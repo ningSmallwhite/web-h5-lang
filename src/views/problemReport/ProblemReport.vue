@@ -150,9 +150,9 @@ export default {
 
 <style scope>
 .base-info {
-  height: 2rem;
-  line-height: 2rem;
-  font-size: 0.9rem;
+  height: 0.6rem;
+  line-height: 0.6rem;
+  font-size: 0.3rem;
   padding: 0 5px;
   background: rgb(1 167 240);
 }

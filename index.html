@@ -7,9 +7,27 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
     <title>润建股份网络运营服务平台</title>
     <link rel="stylesheet" href="/css/base.css">
+    
   </head>
   <body>
     <div id="app"></div>
+    <script>
+      function resize() {
+        var deviceWidth = document.documentElement.clientWidth || window.innerWidth
+        if (deviceWidth >= 750) {
+        deviceWidth = 750
+        }
+
+        if (deviceWidth <= 320) { deviceWidth=320 } document.documentElement.style.fontSize=(deviceWidth / 7.5) + 'px'
+          document.querySelector('body').style.fontSize=0.3 + 'rem'
+      }
+
+      resize()
+      window.onresize = function() {
+        resize()
+      }
+      
+    </script>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

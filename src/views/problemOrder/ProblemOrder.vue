@@ -46,11 +46,11 @@
             <span>网格：</span>
             <span>{{ item.Grid }}</span>
           </p>
-          <p>
+          <!-- <p>
             <span class="dot yellow"></span>
             <span>班组人员：</span>
             <span>{{ item.TeamName }}</span>
-          </p>
+          </p> -->
           <p>
             <span class="dot green"></span>
             <span>站址名称：</span>
@@ -61,11 +61,11 @@
             <span>站址编码：</span>
             <span>{{ item.SiteCode }}</span>
           </p>
-          <p>
+          <!-- <p>
             <span class="dot black"></span>
             <span>故障原因：</span>
             <span>{{ item.FaultCause }}</span>
-          </p>
+          </p> -->
           <p>
             <span class="dot purple"></span>
             <span>基站等级：</span>
@@ -75,11 +75,6 @@
             <span class="dot grey"></span>
             <span>权重值：</span>
             <span>{{ item.Weight }}</span>
-          </p>
-          <p>
-            <span class="dot green1"></span>
-            <span>故障数量：</span>
-            <span>{{ item.County }}</span>
           </p>
           <p v-if="btnNum == 0">
             <span class="dot green1"></span>
@@ -123,13 +118,13 @@ export default {
         SortField: btnNum.value == 0 ? "FaultNum" : "UpdateTime",
         SortType: btnNum.value == 0 ? "desc" : "asc",
         Search: {
-          // City: store.state.userInfo.City,
-          // County: store.state.userInfo.County,
+          City: store.state.userInfo.City,
+          County: store.state.userInfo.County,
           // SiteName: store.state.userInfo.SiteName,
           // SiteCode: store.state.userInfo.SiteCode,
-          // Grid: store.state.userInfo.Grid,
+          Grid: store.state.userInfo.Grid,
           // TeamName: store.state.userInfo.TeamName,
-          // WoType: store.state.userInfo.WoType,
+          WoType: store.state.userInfo.WoType,
         },
       };
       postAction("/Wo/App/WeChatWo/GetData_WoList", obj).then((res) => {
@@ -205,7 +200,7 @@ export default {
 
 .li-item p {
   margin: 5px 0;
-  font-size: 0.9rem;
+  font-size: 0.32rem;
 }
 
 .li-item p span:last-child {
@@ -217,6 +212,6 @@ export default {
 }
 
 .font-b {
-  font-size: 1rem;
+  font-size: 0.35rem;
 }
 </style>

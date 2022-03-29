@@ -47,7 +47,7 @@ export default {
     const showPopover = ref(false);
     const fileList = ref([]);
     let urlArr = [];
-    let handleUrl = ref('');
+    let handleUrl = ref("");
     const loadDetail = inject("loadDetail");
 
     const afterRead = (file) => {
@@ -93,19 +93,17 @@ export default {
         message: "加载中...",
         forbidClick: true,
       });
-      postAction(handleUrl.value, obj).then(
-        (res) => {
-          if (res.Success) {
-            Toast.success(res.Msg);
-            close();
-            // 重新请求列表
-            loadDetail();
-          } else {
-            Toast.fail(res.Msg);
-          }
-          // Toast.clear();
+      postAction(handleUrl.value, obj).then((res) => {
+        if (res.Success) {
+          Toast.success(res.Msg);
+          close();
+          // 重新请求列表
+          loadDetail();
+        } else {
+          Toast.fail(res.Msg);
         }
-      );
+        // Toast.clear();
+      });
     };
 
     const openPop = (row, url) => {
@@ -137,8 +135,9 @@ export default {
 
 <style scope>
 .base-info {
-  height: 2rem;
-  line-height: 2rem;
+  height: 0.6rem;
+  line-height: 0.6rem;
+  font-size: 0.3rem;
   padding: 0 5px;
   background: #d3d3d3;
 }

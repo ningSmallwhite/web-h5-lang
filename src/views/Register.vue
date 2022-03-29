@@ -115,12 +115,11 @@
           @cancel="showPickerGrid = false"
         />
       </van-popup>
-
-      <div style="margin: 16px 0">
-        <van-button block color="#01a7f0" @click="submitRegist">
-          确认注册
-        </van-button>
-      </div>
+    </div>
+    <div style="margin: 16px 0px; position: fixed; bottom: 0; width: 100%">
+      <van-button block color="#01a7f0" @click="submitRegist">
+        确认注册
+      </van-button>
     </div>
   </div>
 </template>
@@ -131,12 +130,12 @@ import { Toast } from "vant";
 import { useRoute, useRouter } from "vue-router";
 import { verifyPhone } from "/@utils/toolsValidate";
 import { postAction } from "../api/api";
-import { useStore } from 'vuex';
+import { useStore } from "vuex";
 import { Local } from "/@utils/storage";
 
 const route = useRoute();
 const router = useRouter();
-const store = useStore()
+const store = useStore();
 
 const isEdit = ref(false);
 
@@ -164,13 +163,13 @@ const submitRegist = (values) => {
     if (!err) {
       // 提交
       const obj = Object.assign({}, formData);
-      obj.OpenId = store.state.openId
+      obj.OpenId = store.state.openId;
       postAction("/Data_Manage/WeChat_User/SaveWeChat_User", obj)
         .then((res) => {
           if (res.Success) {
             Toast.success(res.Msg);
-            Local.set("userInfo", obj)
-            router.replace('/userInfo')
+            Local.set("userInfo", obj);
+            router.replace("/userInfo");
           } else {
             Toast.fail(res.Msg);
           }
@@ -181,7 +180,6 @@ const submitRegist = (values) => {
         });
     }
   });
-
 };
 
 const columnObj = reactive({
@@ -266,14 +264,14 @@ loadOpt(
 
 <style scoped>
 .reg-info {
-  padding: 0.5rem 0;
-  font-size: 0.9rem;
+  padding: 10px 0;
+  font-size: 0.3rem;
 }
 
 .base-info {
-  height: 2rem;
-  line-height: 2rem;
-  font-size: 0.9rem;
+  height: 0.6rem;
+  line-height: 0.6rem;
+  font-size: 0.3rem;
   padding: 0 5px;
   background: rgb(1 167 240);
 }

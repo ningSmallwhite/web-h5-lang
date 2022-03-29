@@ -7,7 +7,6 @@
     v-model:show="showPopover"
     @close="close"
   >
-    <!-- <p class="base-info">基础信息</p> -->
     <van-form ref="formRef">
       <van-cell-group inset>
         <van-field
@@ -158,13 +157,6 @@ export default {
 </script>
 
 <style scope>
-.base-info {
-  height: 2rem;
-  line-height: 2rem;
-  padding: 0 5px;
-  background: rgb(1 167 240);
-}
-
 .bot-0 {
   bottom: 0;
 }

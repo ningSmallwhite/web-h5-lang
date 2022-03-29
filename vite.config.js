@@ -16,7 +16,10 @@ const alias = {
 export default defineConfig({
   base: "./",
   resolve: {
-    alias
+    alias,
   },
-  plugins: [vue()]
+  plugins: [vue()],
+  server: {
+    host: "0.0.0.0",
+  },
 });

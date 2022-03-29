@@ -3,6 +3,7 @@
     <van-tabs
       color="#01a7f0"
       type="card"
+      :sticky="true"
       v-model:active="active"
       @click-tab="onClickTab"
     >
@@ -79,5 +80,8 @@ export default {
 
 .tab-cla {
   background: greenyellow;
+}
+:root {
+  --van-tabs-card-height: 44px;
 }
 </style>

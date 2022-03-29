@@ -137,35 +137,41 @@
           @cancel="showPickerGrid = false"
         />
       </van-popup>
+    </div>
 
-      <div style="margin: 16px 0" v-if="isEdit">
-        <van-row gutter="10">
-          <van-col span="12">
-            <van-button block color="#01a7f0" @click="editSubmit">
-              确认修改
-            </van-button>
-          </van-col>
-          <van-col span="12">
-            <van-button block color="#01a7f0" @click="isEdit = false">
-              返回
-            </van-button></van-col
-          >
-        </van-row>
-      </div>
-      <div style="margin: 16px 0" v-else>
-        <van-row gutter="10">
-          <van-col span="12">
-            <van-button block color="#01a7f0" @click="editInfo">
-              修改信息
-            </van-button>
-          </van-col>
-          <van-col span="12">
-            <van-button block type="danger" @click="logout">
-              注销用户
-            </van-button></van-col
-          >
-        </van-row>
-      </div>
+    <div
+      style="margin: 16px 0px; position: fixed; bottom: 0; width: 100%"
+      v-if="isEdit"
+    >
+      <van-row gutter="10">
+        <van-col span="12">
+          <van-button block color="#01a7f0" @click="editSubmit">
+            确认修改
+          </van-button>
+        </van-col>
+        <van-col span="12">
+          <van-button block color="#01a7f0" @click="isEdit = false">
+            返回
+          </van-button></van-col
+        >
+      </van-row>
+    </div>
+    <div
+      style="margin: 16px 0px; position: fixed; bottom: 0; width: 100%"
+      v-else
+    >
+      <van-row gutter="10">
+        <van-col span="12">
+          <van-button block color="#01a7f0" @click="editInfo">
+            修改信息
+          </van-button>
+        </van-col>
+        <van-col span="12">
+          <van-button block type="danger" @click="logout">
+            注销用户
+          </van-button></van-col
+        >
+      </van-row>
     </div>
   </div>
 </template>
@@ -393,14 +399,14 @@ const loadOptR = () => {
 
 <style scoped>
 .reg-info {
-  padding: 0.5rem 0;
-  font-size: 0.9rem;
+  padding: 10px 0;
+  font-size: 0.3rem;
 }
 
 .base-info {
-  height: 2rem;
-  line-height: 2rem;
-  font-size: 0.9rem;
+  height: 0.6rem;
+  line-height: 0.6rem;
+  font-size: 0.3rem;
   padding: 0 5px;
   background: rgb(1 167 240);
 }
