@@ -14,6 +14,7 @@
         <TowerOrder />
       </van-tab>
     </van-tabs>
+    <div class="back-btn" @click="goBack">返回</div>
   </div>
 </template>
 
@@ -22,7 +23,7 @@ import { ref, provide, reactive, toRefs } from "vue";
 import { Toast } from "vant";
 import MobileOrder from "./mobileOrder/MobileOrder.vue";
 import TowerOrder from "./towerOrder/TowerOrder.vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { postAction } from "/@api/api";
 
@@ -32,10 +33,11 @@ export default {
     TowerOrder,
   },
   setup() {
-    const state = reactive({data: {Data_Wo_Son_WangYoulist: []}})
+    const state = reactive({ data: { Data_Wo_Son_WangYoulist: [] } });
     const active = ref(0);
-    const onClickTab = () => {}
+    const onClickTab = () => {};
 
+    const router = useRouter();
     const route = useRoute();
     const store = useStore();
     const loadDetail = () => {
@@ -49,24 +51,27 @@ export default {
       })
         .then((res) => {
           if (res.Success) {
-            console.log(res);
-            state.data = res.Data
+            state.data = res.Data;
           }
-          // Toast.clear();
         })
         .catch(() => {
           // Toast.clear();
         });
     };
 
-    provide('dataSource', state) 
-    provide('loadDetail', loadDetail)
+    provide("dataSource", state);
+    provide("loadDetail", loadDetail);
 
     loadDetail();
+
+    const goBack = () => {
+      router.go(-1);
+    };
     return {
       ...toRefs(state),
       active,
       onClickTab,
+      goBack,
     };
   },
 };
@@ -83,5 +88,20 @@ export default {
 }
 :root {
   --van-tabs-card-height: 44px;
+}
+
+.back-btn {
+  position: fixed;
+  bottom: 40px;
+  right: 30px;
+  width: 40px;
+  justify-content: center;
+  height: 40px;
+  background: rgb(17 130 228 / 65%);
+  display: flex;
+  align-items: center;
+  color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.4);
 }
 </style>

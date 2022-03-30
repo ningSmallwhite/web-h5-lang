@@ -4,6 +4,7 @@ import store from "./store";
 import router from "./router";
 import Vant from "vant";
 import "vant/lib/index.css";
+import './assets/base.css'
 
 createApp(App)
   .use(store)

@@ -116,7 +116,9 @@
         />
       </van-popup>
     </div>
-    <div style="margin: 16px 0px; position: fixed; bottom: 0;left: 0; width: 100%">
+    <div
+      style="margin: 16px 0px; position: fixed; bottom: 0; left: 0; width: 100%"
+    >
       <van-button block round color="#01a7f0" @click="submitRegist">
         确认注册
       </van-button>
@@ -191,6 +193,11 @@ const columnObj = reactive({
 // 专业
 const showPickerWoType = ref(false);
 const onConfirmWoType = (value) => {
+  if (value.value != formData.WoType) {
+    formData.City = "";
+    formData.County = "";
+    formData.Grid = "";
+  }
   formData.WoType = value.value;
   loadOpt(
     {
@@ -207,6 +214,10 @@ const onConfirmWoType = (value) => {
 // 公司
 const showPickerCity = ref(false);
 const onConfirmCity = (value) => {
+  if (value.value != formData.City) {
+    formData.County = "";
+    formData.Grid = "";
+  }
   formData.City = value.value;
   showPickerCity.value = false;
   loadOpt(
@@ -222,6 +233,9 @@ const onConfirmCity = (value) => {
 // 区域
 const showPickerCounty = ref(false);
 const onConfirmCounty = (value) => {
+  if (value.value != formData.County) {
+    formData.Grid = "";
+  }
   formData.County = value.value;
   showPickerCounty.value = false;
   loadOpt(
