@@ -72,62 +72,62 @@ router.beforeEach(async (to, from, next) => {
     forbidClick: true,
   });
   const code = to.query.code;
-
+next()
   const openId = Session.get("openId");
   // 首次进入
-  if (code) {
-    const openIdRes = await loadOpenId(code);
-    if (!openIdRes.Success) {
-      Toast.fail(openIdRes.Msg);
-      return next({ path: "/register", replace: true });
-    }
-    Session.set("openId", openIdRes.Data.openid || "");
-    store.dispatch("setOpenId", openIdRes.Data.openid);
-    const userRes = await loadUserInfo(openIdRes.Data.openid);
-    Local.set("userInfo", userRes.Data || {});
-    store.dispatch("setUserData", userRes.Data);
-    if (!userRes.Data.Id) {
-      if (to.path == "/register") {
-        next();
-      } else {
-        next({ path: "/register", replace: true });
-      }
-    } else {
-      if (to.path == "/register") {
-        Toast('您已注册！')
-        next({ path: "/userInfo", replace: true });
-      } else {
-        next();
-      }
-    }
-  } else {
-    // 刷新
-    if (openId) {
-      const userRes = await loadUserInfo(openId);
-      Local.set("userInfo", userRes.Data || {});
-      store.dispatch("setUserData", userRes.Data || {});
-      // 没有用户信息 去注册
-      if (!userRes.Data.Id) {
-        if (to.path == "/register") {
-          next();
-        } else {
-          next({ path: "/register", replace: true });
-        }
-      } else {
-        if (to.path == "/register") {
-          next({ path: "/userInfo", replace: true });
-        } else {
-          next();
-        }
-      }
-    } else {
-      if (to.path == "/register") {
-        next();
-      } else {
-        next({ path: "/register", replace: true });
-      }
-    }
-  }
+  // if (code) {
+  //   const openIdRes = await loadOpenId(code);
+  //   if (!openIdRes.Success) {
+  //     Toast.fail(openIdRes.Msg);
+  //     return next({ path: "/register", replace: true });
+  //   }
+  //   Session.set("openId", openIdRes.Data.openid || "");
+  //   store.dispatch("setOpenId", openIdRes.Data.openid);
+  //   const userRes = await loadUserInfo(openIdRes.Data.openid);
+  //   Local.set("userInfo", userRes.Data || {});
+  //   store.dispatch("setUserData", userRes.Data);
+  //   if (!userRes.Data.Id) {
+  //     if (to.path == "/register") {
+  //       next();
+  //     } else {
+  //       next({ path: "/register", replace: true });
+  //     }
+  //   } else {
+  //     if (to.path == "/register") {
+  //       Toast('您已注册！')
+  //       next({ path: "/userInfo", replace: true });
+  //     } else {
+  //       next();
+  //     }
+  //   }
+  // } else {
+  //   // 刷新
+  //   if (openId) {
+  //     const userRes = await loadUserInfo(openId);
+  //     Local.set("userInfo", userRes.Data || {});
+  //     store.dispatch("setUserData", userRes.Data || {});
+  //     // 没有用户信息 去注册
+  //     if (!userRes.Data.Id) {
+  //       if (to.path == "/register") {
+  //         next();
+  //       } else {
+  //         next({ path: "/register", replace: true });
+  //       }
+  //     } else {
+  //       if (to.path == "/register") {
+  //         next({ path: "/userInfo", replace: true });
+  //       } else {
+  //         next();
+  //       }
+  //     }
+  //   } else {
+  //     if (to.path == "/register") {
+  //       next();
+  //     } else {
+  //       next({ path: "/register", replace: true });
+  //     }
+  //   }
+  // }
 });
 
 export default router;

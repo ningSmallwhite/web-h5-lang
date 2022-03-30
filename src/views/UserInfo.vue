@@ -412,12 +412,12 @@ const loadOptR = () => {
 <style scoped>
 .reg-info {
   padding: 10px 5px;
-  font-size: 0.32rem;
+  font-size: 17px;
 }
 
 .base-info {
-  height: 0.62rem;
-  font-size: 0.3rem;
+  height: 36px;
+  font-size: 15px;
   padding: 0 5px;
   background: rgb(1 167 240);
   display: flex;

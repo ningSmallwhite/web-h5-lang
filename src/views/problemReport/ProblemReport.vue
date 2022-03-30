@@ -51,8 +51,12 @@
         multiple
       />
     </van-row>
-    <div style="margin: 16px 0px; position: fixed; bottom: 0;left: 0; width: 100%">
-      <van-button round block color="#01a7f0" @click="onSubmit"> 提交 </van-button>
+    <div
+      style="margin: 16px 0px; position: fixed; bottom: 0; left: 0; width: 100%"
+    >
+      <van-button round block color="#01a7f0" @click="onSubmit">
+        提交
+      </van-button>
     </div>
   </div>
 </template>
@@ -150,8 +154,8 @@ export default {
 
 <style scope>
 .base-info {
-  height: 0.62rem;
-  font-size: 0.3rem;
+  height: 40px;
+  font-size: 18px;
   padding: 0 5px;
   background: rgb(1 167 240);
   display: flex;

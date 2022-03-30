@@ -200,7 +200,7 @@ export default {
 
 .li-item p {
   margin: 5px 0;
-  font-size: 0.32rem;
+  font-size: 14px;
 }
 
 .li-item p span:last-child {
@@ -212,6 +212,6 @@ export default {
 }
 
 .font-b {
-  font-size: 0.35rem;
+  font-size: 18px;
 }
 </style>

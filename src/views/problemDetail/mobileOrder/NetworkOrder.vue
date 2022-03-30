@@ -111,6 +111,6 @@ export default {
 
 .li-item1 p {
   margin: 5px 0;
-  font-size: 0.3rem;
+  font-size: 14px;
 }
 </style>

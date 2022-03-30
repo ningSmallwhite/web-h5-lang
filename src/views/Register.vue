@@ -36,7 +36,7 @@
             readonly
             v-model="formData.City"
             required
-            placeholder="请选择分公司类别："
+            placeholder="请选择分公司类别"
             :rules="[{ required: true, message: '请选择分公司类别' }]"
             @click="showPickerCity = true"
           />
@@ -279,12 +279,12 @@ loadOpt(
 <style scoped>
 .reg-info {
   padding: 10px 5px;
-  font-size: 0.32rem;
+  font-size: 17px;
 }
 
 .base-info {
-  height: 0.62rem;
-  font-size: 0.3rem;
+  height: 36px;
+  font-size: 15px;
   padding: 0 5px;
   background: rgb(1 167 240);
   display: flex;

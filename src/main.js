@@ -5,6 +5,7 @@ import router from "./router";
 import Vant from "vant";
 import "vant/lib/index.css";
 import './assets/base.css'
+import "amfe-flexible/index.js";
 
 createApp(App)
   .use(store)

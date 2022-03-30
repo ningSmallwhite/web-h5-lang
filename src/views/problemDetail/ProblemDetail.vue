@@ -87,7 +87,7 @@ export default {
   background: greenyellow;
 }
 :root {
-  --van-tabs-card-height: 44px;
+  --van-tabs-card-height: 40px;
 }
 
 .back-btn {
@@ -97,6 +97,7 @@ export default {
   width: 40px;
   justify-content: center;
   height: 40px;
+  font-size: 14px;
   background: rgb(17 130 228 / 65%);
   display: flex;
   align-items: center;

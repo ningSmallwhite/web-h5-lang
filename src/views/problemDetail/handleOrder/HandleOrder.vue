@@ -135,8 +135,8 @@ export default {
 
 <style scope>
 .base-info {
-  height: 0.62rem;
-  font-size: 0.3rem;
+  height: 36px;
+  font-size: 15px;
   padding: 0 5px;
   background: #d3d3d3;
   display: flex;
