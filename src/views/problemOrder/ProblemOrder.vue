@@ -1,12 +1,11 @@
 <template>
   <div class="">
-    <van-row align="center" gutter="">
+    <!-- <van-row align="center" gutter="">
       <van-col span="12" class="tx-c">
         <van-button
           block
           :type="btnNum == 0 ? 'primary' : 'default'"
           size="normal"
-          class="font-b"
           @click="btnNumTOP"
           >TOP-N等级
         </van-button>
@@ -16,12 +15,45 @@
           block
           size="normal"
           :type="btnNum == 1 ? 'primary' : 'default'"
-          class="font-b"
           @click="btnNumTime"
           >派单时间
         </van-button>
       </van-col>
-    </van-row>
+    </van-row> -->
+    <van-sticky>
+      <van-row>
+        <van-col span="24">
+          <van-search
+            class="van-hairline--bottom"
+            left-icon=""
+            readonly
+            placeholder="TOP等级"
+            v-model="SortFieldName"
+            @click="showPicker = true"
+          />
+        </van-col>
+        <van-col span="24" class="van-hairline--bottom">
+          <van-field v-model="SiteName" placeholder="基站名称">
+            <template #button>
+              <van-button size="small" @click="onReset">查询</van-button>
+              <van-button size="small" @click="onReset(1)">重置</van-button>
+            </template>
+          </van-field>
+        </van-col>
+      </van-row>
+    </van-sticky>
+
+    <van-popup v-model:show="showPicker" position="bottom">
+      <van-picker
+        :columns="[
+          { text: '权重', value: 'Weight' },
+          { text: '故障数量', value: 'FaultNum' },
+          { text: '受理时间', value: 'UpdateTime' },
+        ]"
+        @confirm="onConfirm"
+        @cancel="showPicker = false"
+      />
+    </van-popup>
 
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-list
@@ -76,13 +108,18 @@
             <span>权重值：</span>
             <span>{{ item.Weight }}</span>
           </p>
-          <p v-if="btnNum == 0">
+          <p>
+            <span class="dot yellow"></span>
+            <span>告警名称：</span>
+            <span>{{ item.AlertName }}</span>
+          </p>
+          <p>
             <span class="dot green1"></span>
             <span>故障数量：</span>
             <span>{{ item.FaultNum }}</span>
           </p>
-          <p v-else>
-            <span class="dot green1"></span>
+          <p>
+            <span class="dot black"></span>
             <span>派单时间：</span>
             <span>{{ item.UpdateTime }}</span>
           </p>
@@ -107,6 +144,11 @@ export default {
     const btnNum = ref(0);
     const store = useStore();
     const PageIndex = ref(1);
+
+    const SiteName = ref("");
+    const SortField = ref("Weight");
+    const SortFieldName = ref("权重");
+
     const onLoad = () => {
       if (refreshing.value) {
         list.value = [];
@@ -115,12 +157,12 @@ export default {
       const obj = {
         PageIndex: PageIndex.value,
         PageRows: 10,
-        SortField: btnNum.value == 0 ? "FaultNum" : "UpdateTime",
-        SortType: btnNum.value == 0 ? "desc" : "asc",
+        SortField: SortField.value,
+        SortType: SortField.value == "UpdateTime" ? "asc" : "desc",
         Search: {
           City: store.state.userInfo.City,
           County: store.state.userInfo.County,
-          // SiteName: store.state.userInfo.SiteName,
+          SiteName: SiteName.value,
           // SiteCode: store.state.userInfo.SiteCode,
           Grid: store.state.userInfo.Grid,
           // TeamName: store.state.userInfo.TeamName,
@@ -165,6 +207,24 @@ export default {
       router.push({ path: "/problemDetail", query: { id: row.Id } });
     };
 
+    const showPicker = ref(false);
+    const onConfirm = (value) => {
+      console.log(value);
+      SortField.value = value.value;
+      SortFieldName.value = value.text;
+      showPicker.value = false;
+    };
+
+    const onReset = (val) => {
+      if (val==1) {
+        SortField.value = "Weight";
+        SortFieldName.value = "权重";
+        SiteName.value = "";
+      }
+
+      list.value = [];
+      onRefresh();
+    };
     return {
       btnNum,
       list,
@@ -176,6 +236,12 @@ export default {
       btnNumTOP,
       btnNumTime,
       toDetial,
+      onConfirm,
+      onReset,
+      showPicker,
+      SortField,
+      SortFieldName,
+      SiteName,
     };
   },
 };
@@ -211,7 +277,7 @@ export default {
   color: #44f956;
 }
 
-.font-b {
-  font-size: 18px;
+.yellow {
+  color: #ffd900;
 }
 </style>

@@ -98,13 +98,34 @@
         />
       </van-popup>
       <!-- 区域 -->
-      <van-popup v-model:show="showPickerCounty" position="bottom">
-        <van-picker
-          :columns="columnObj.area"
-          :columns-field-names="{ text: 'value', value: 'value' }"
-          @confirm="onConfirmCounty"
-          @cancel="showPickerCounty = false"
-        />
+      <van-popup
+        :style="{ height: '30%' }"
+        v-model:show="showPickerCounty"
+        position="bottom"
+      >
+        <div class='van-picker__toolbar'>
+          <button class='van-picker__cancel van-haptics-feedback' @click="showPickerCounty = false">取消</button>
+          <button class="van-picker__confirm van-haptics-feedback" @click="onConfirmCounty">确认</button>
+        </div>
+        <van-checkbox-group v-model="checked">
+          <van-cell-group inset>
+            <van-cell
+              v-for="(item, index) in columnObj.area"
+              clickable
+              :key="item.value"
+              :title="item.value"
+              @click="toggle(index)"
+            >
+              <template #right-icon>
+                <van-checkbox
+                  :name="item.value"
+                  :ref="(el) => (checkboxRefs[index] = el)"
+                  @click.stop
+                />
+              </template>
+            </van-cell>
+          </van-cell-group>
+        </van-checkbox-group>
       </van-popup>
       <!-- 网格 -->
       <van-popup v-model:show="showPickerGrid" position="bottom">
@@ -197,6 +218,10 @@ const onConfirmWoType = (value) => {
     formData.City = "";
     formData.County = "";
     formData.Grid = "";
+    checked.value = []
+    checkboxRefs.value = []
+    columnObj.area = []
+    columnObj.grid = []
   }
   formData.WoType = value.value;
   loadOpt(
@@ -217,6 +242,9 @@ const onConfirmCity = (value) => {
   if (value.value != formData.City) {
     formData.County = "";
     formData.Grid = "";
+    checked.value = []
+    checkboxRefs.value = []
+    columnObj.grid = []
   }
   formData.City = value.value;
   showPickerCity.value = false;
@@ -231,23 +259,34 @@ const onConfirmCity = (value) => {
   );
 };
 // 区域
+const checked = ref([]);
+const checkboxRefs = ref([]);
+const toggle = (index) => {
+  checkboxRefs.value[index].toggle();
+};
+
 const showPickerCounty = ref(false);
-const onConfirmCounty = (value) => {
-  if (value.value != formData.County) {
+const onConfirmCounty = () => {
+  if (checked.value.length == 0) {
+    return Toast('请选择区域')
+  }
+  const val = checked.value.join(',')
+  if (val != formData.County) {
     formData.Grid = "";
   }
-  formData.County = value.value;
+  formData.County = val;
   showPickerCounty.value = false;
   loadOpt(
     {
       level: 3,
       Line: formData.WoType,
       CompanyType: formData.City,
-      AreaType: value.value,
+      AreaType: val,
     },
     "grid"
   );
 };
+
 // 网格
 const showPickerGrid = ref(false);
 const onConfirmGrid = (value) => {

@@ -4,7 +4,7 @@ import { Session, Local } from "/@utils/storage";
 export default createStore({
   state: {
     userInfo: Local.get("userInfo") || {}, // 个人信息
-    openId: Session.get("openId") || null,
+    openId: Local.get("openId") || null,
   },
   mutations: {
     SET_USER_DATA(state, value) {
