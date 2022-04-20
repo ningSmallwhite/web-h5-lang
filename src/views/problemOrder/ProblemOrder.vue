@@ -1,44 +1,32 @@
 <template>
   <div class="">
-    <!-- <van-row align="center" gutter="">
-      <van-col span="12" class="tx-c">
-        <van-button
-          block
-          :type="btnNum == 0 ? 'primary' : 'default'"
-          size="normal"
-          @click="btnNumTOP"
-          >TOP-N等级
-        </van-button>
-      </van-col>
-      <van-col span="12" class="tx-c">
-        <van-button
-          block
-          size="normal"
-          :type="btnNum == 1 ? 'primary' : 'default'"
-          @click="btnNumTime"
-          >派单时间
-        </van-button>
-      </van-col>
-    </van-row> -->
     <van-sticky>
       <van-row>
         <van-col span="24">
           <van-search
             class="van-hairline--bottom"
+            label="TOP-等级："
             left-icon=""
             readonly
-            placeholder="TOP等级"
+            placeholder="TOP-等级"
             v-model="SortFieldName"
             @click="showPicker = true"
           />
         </van-col>
         <van-col span="24" class="van-hairline--bottom">
-          <van-field v-model="SiteName" placeholder="基站名称">
-            <template #button>
-              <van-button size="small" @click="onReset">查询</van-button>
-              <van-button size="small" @click="onReset(1)">重置</van-button>
+          <van-search
+            v-model="SiteName"
+            show-action
+            placeholder="输入基站名称查询"
+            @search="onReset"
+          >
+            <template #action>
+              <div>
+                <span class="mr5" @click="onReset">查询</span>
+                <span @click="onReset(1)">重置</span>
+              </div>
             </template>
-          </van-field>
+          </van-search>
         </van-col>
       </van-row>
     </van-sticky>
@@ -121,7 +109,9 @@
           <p>
             <span class="dot black"></span>
             <span>派单时间：</span>
-            <span>{{ item.UpdateTime }}</span>
+            <span>{{
+              formateTime(item.UpdateTime, "yyyy-MM-dd hh:mm:ss")
+            }}</span>
           </p>
         </div>
       </van-list>
@@ -134,6 +124,7 @@ import { ref } from "vue";
 import { postAction } from "/@api/api";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { formateTime } from "/@utils/utils";
 
 export default {
   setup() {
@@ -141,7 +132,6 @@ export default {
     const loading = ref(false);
     const finished = ref(false);
     const refreshing = ref(false);
-    const btnNum = ref(0);
     const store = useStore();
     const PageIndex = ref(1);
 
@@ -173,7 +163,6 @@ export default {
         if (res.Success) {
           PageIndex.value++;
           list.value = list.value.concat(res.Data);
-          console.log(list.value.length);
           if (list.value.length == res.Total) {
             finished.value = true;
           }
@@ -192,16 +181,7 @@ export default {
       onLoad();
     };
 
-    const btnNumTOP = () => {
-      btnNum.value = 0;
-      refreshing.value = true;
-      onRefresh();
-    };
-    const btnNumTime = () => {
-      btnNum.value = 1;
-      refreshing.value = true;
-      onRefresh();
-    };
+
     const router = useRouter();
     const toDetial = (row) => {
       router.push({ path: "/problemDetail", query: { id: row.Id } });
@@ -209,14 +189,13 @@ export default {
 
     const showPicker = ref(false);
     const onConfirm = (value) => {
-      console.log(value);
       SortField.value = value.value;
       SortFieldName.value = value.text;
       showPicker.value = false;
     };
 
     const onReset = (val) => {
-      if (val==1) {
+      if (val === 1) {
         SortField.value = "Weight";
         SortFieldName.value = "权重";
         SiteName.value = "";
@@ -226,15 +205,12 @@ export default {
       onRefresh();
     };
     return {
-      btnNum,
       list,
       onLoad,
       loading,
       finished,
       onRefresh,
       refreshing,
-      btnNumTOP,
-      btnNumTime,
       toDetial,
       onConfirm,
       onReset,
@@ -242,6 +218,7 @@ export default {
       SortField,
       SortFieldName,
       SiteName,
+      formateTime,
     };
   },
 };

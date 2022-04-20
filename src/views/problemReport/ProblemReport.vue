@@ -18,16 +18,20 @@
           v-model="formData.MojorType"
           name="MojorType"
           required
-          placeholder="请输入专业类型"
-          :rules="[{ required: true, message: '请输入专业类型' }]"
+          placeholder="请选择专业类型"
+          readonly
+          :rules="[{ required: true, message: '请选择专业类型' }]"
+          @click="showPickerMojob = true"
         />
         <van-field
           label="隐患类型："
           v-model="formData.FaultType"
           name="FaultType"
-          placeholder="请输入隐患类型"
+          placeholder="请选择隐患类型"
           required
-          :rules="[{ required: true, message: '请输入隐患类型' }]"
+          readonly
+          :rules="[{ required: true, message: '请选择隐患类型' }]"
+          @click="showPickerFault = true"
         />
         <van-field
           v-model="formData.FaultRemark"
@@ -58,6 +62,30 @@
         提交
       </van-button>
     </div>
+
+    <van-popup v-model:show="showPickerMojob" position="bottom">
+      <van-picker
+        :columns="['动力', '无线', '室分', '传输', '铁塔', '其他']"
+        :columns-field-names="{ text: 'value', value: 'value' }"
+        @confirm="onConfirmMojob"
+        @cancel="showPickerMojob = false"
+      />
+    </van-popup>
+    <van-popup v-model:show="showPickerFault" position="bottom">
+      <van-picker
+        :columns="[
+          '塔类隐患',
+          '房类隐患',
+          '配套设备类隐患',
+          '移动传输设备类隐患',
+          '移动无线设备类隐患',
+          '其他隐患',
+        ]"
+        :columns-field-names="{ text: 'value', value: 'value' }"
+        @confirm="onConfirmFault"
+        @cancel="showPickerFault = false"
+      />
+    </van-popup>
   </div>
 </template>
 
@@ -140,6 +168,18 @@ export default {
       });
     };
 
+    const showPickerMojob = ref(false);
+    const onConfirmMojob = (value) => {
+      formData.MojorType = value;
+      showPickerMojob.value = false
+    };
+
+    const showPickerFault = ref(false);
+    const onConfirmFault = (value) => {
+      formData.FaultType = value;
+      showPickerFault.value = false
+    };
+
     return {
       formRef,
       fileList,
@@ -147,6 +187,10 @@ export default {
       afterRead,
       formData,
       beforeDelete,
+      showPickerMojob,
+      onConfirmMojob,
+      showPickerFault,
+      onConfirmFault,
     };
   },
 };
