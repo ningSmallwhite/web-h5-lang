@@ -148,6 +148,7 @@
             </van-cell>
           </van-cell-group>
         </van-checkbox-group>
+      </van-popup>
       <!-- 网格 -->
       <van-popup v-model:show="showPickerGrid" position="bottom">
         <van-picker
