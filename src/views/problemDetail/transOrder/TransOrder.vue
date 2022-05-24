@@ -109,7 +109,7 @@ export default {
             forbidClick: true,
           });
           let obj = Object.assign({}, formData);
-          obj.SendTime = formateTime(Date.now(), "yyyy-MM-dd hh:mm:ss");
+          obj.SendTime = formateTime(Date.now(), "YYYY-MM-DD HH:mm:ss");
           postAction("/Wo/App/WeChatWo/SaveData_Wo_Record", obj).then((res) => {
             if (res.Success) {
               Toast.success(res.Msg);

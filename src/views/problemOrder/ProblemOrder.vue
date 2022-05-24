@@ -110,7 +110,7 @@
             <span class="dot black"></span>
             <span>派单时间：</span>
             <span>{{
-              formateTime(item.UpdateTime, "yyyy-MM-dd hh:mm:ss")
+              formateTime(item.UpdateTime, "YYYY-MM-DD HH:mm:ss")
             }}</span>
           </p>
         </div>
