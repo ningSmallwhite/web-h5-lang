@@ -112,8 +112,9 @@ export default {
           obj.SendTime = formateTime(Date.now(), "YYYY-MM-DD HH:mm:ss");
           postAction("/Wo/App/WeChatWo/SaveData_Wo_Record", obj).then((res) => {
             if (res.Success) {
-              Toast.success(res.Msg);
               loadDetail();
+              Toast.success(res.Msg);
+              console.log(111);
               close()
             } else {
               Toast.fail(res.Msg);
@@ -124,13 +125,15 @@ export default {
       });
     };
 
-    const openPop = (WoFrom) => {
+    const openPop = (WoFrom, id) => {
       showPopover.value = true;
       formData.SendMan = store.state.userInfo.UserName;
       formData.WoFrom = WoFrom;
+      formData.WoId = id;
     };
 
     const close = () => {
+      // loadDetail();
       formRef.value.resetValidation();
       showPopover.value = false;
       formData.SendMan = "";

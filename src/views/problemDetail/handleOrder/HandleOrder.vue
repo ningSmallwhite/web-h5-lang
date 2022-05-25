@@ -94,10 +94,10 @@ export default {
       });
       postAction(handleUrl.value, obj).then((res) => {
         if (res.Success) {
+          loadDetail();
           Toast.success(res.Msg);
           close();
           // 重新请求列表
-          loadDetail();
         } else {
           Toast.fail(res.Msg);
         }

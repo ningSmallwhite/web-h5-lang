@@ -63,7 +63,6 @@ export default {
     provide("loadDetail", loadDetail);
 
     loadDetail();
-
     const goBack = () => {
       router.go(-1);
     };
@@ -72,6 +71,7 @@ export default {
       active,
       onClickTab,
       goBack,
+      loadDetail,
     };
   },
 };
