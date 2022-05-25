@@ -83,7 +83,7 @@ export default {
 
     const showPicker = ref(false);
     const formRef = ref();
-    const columns = ref([{ value: "骚浪" }]);
+    const columns = ref([]);
     const onConfirm = (value) => {
       console.log(value);
       formData.HandleMan = value.UserName;

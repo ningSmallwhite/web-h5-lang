@@ -98,7 +98,7 @@ export default {
 
     const transRef = ref();
     const transResolve = () => {
-      transRef.value.openPop(data.data.WoType);
+      transRef.value.openPop('无线');
     };
 
     return {

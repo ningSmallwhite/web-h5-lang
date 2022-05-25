@@ -64,13 +64,12 @@ export default {
           file.status = res.status;
 
           if (res.status == "done") {
-            console.log("fileList", fileList.value);
             urlArr.push(res.url);
           }
-          // Toast.clear();
+          Toast.clear();
         })
         .catch(() => {
-          // Toast.clear();
+          Toast.clear();
         });
     };
 
