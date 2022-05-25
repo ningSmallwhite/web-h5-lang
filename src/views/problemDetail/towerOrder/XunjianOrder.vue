@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-empty
-      v-if="data.Data_Wo_Son_Checklist.length == 0"
+      v-if="data.Data_Wo_Son_Checklist&&data.Data_Wo_Son_Checklist.length == 0"
       description="暂无数据"
     />
     <div
@@ -84,8 +84,8 @@ export default {
     };
 
     const transRef = ref();
-    const transResolve = () => {
-      transRef.value.openPop('巡检');
+    const transResolve = ({Id}) => {
+      transRef.value.openPop('巡检', Id );
     };
 
     return {
